@@ -1,8 +1,9 @@
 var builder = WebApplication.CreateBuilder(args); // Создаем builder
-var app = builder.Build(); // Сосздаем приложение
 
 var servises = builder.Services; // Добавляем сервисы
-servises.AddControllersWithViews(); // Добавляем MVC
+servises.AddControllersWithViews();// Добавляем MVC
+
+var app = builder.Build(); // Сосздаем приложение
 
 
 if (app.Environment.IsDevelopment())
@@ -12,6 +13,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseRouting(); // Добавляем маршрутизацию
 
-app.MapGet("/", () => app.Configuration["HelloProject"]);
+
+
+app.MapDefaultControllerRoute();
 
 app.Run(); // Запуск программы
