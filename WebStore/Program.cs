@@ -4,11 +4,13 @@ var app = builder.Build(); // Сосздаем приложение
 var servises = builder.Services; // Добавляем сервисы
 servises.AddControllersWithViews(); // Добавляем MVC
 
-if(app.Environment.IsDevelopment())
+
+if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage(); // Перехват всех ошибок
 }
 
+app.UseRouting(); // Добавляем маршрутизацию
 
 app.MapGet("/", () => app.Configuration["HelloProject"]);
 
