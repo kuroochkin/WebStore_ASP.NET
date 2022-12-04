@@ -14,10 +14,10 @@ if (app.Environment.IsDevelopment())
 app.UseRouting(); // Добавляем маршрутизацию
 
 
-app.MapDefaultControllerRoute(); // Добавляем default-маршрут
+// app.MapDefaultControllerRoute(); // Добавляем default-маршрут
 
 app.MapControllerRoute( // Собственынй маршрут
     name: "default",
-    pattern: "{controller}/{action}/{id?}");
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run(); // Запуск программы
