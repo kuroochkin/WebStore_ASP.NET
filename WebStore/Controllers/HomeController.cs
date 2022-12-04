@@ -6,7 +6,15 @@ namespace WebStore.Controllers
     {
         public IActionResult Index()
         {
-            return Content("Добавление главного контроллера");
+            //return Content("Добавление главного контроллера");
+            return View(); // Первое представление
+        }
+
+        public string ConfiguredAction(string id)
+        {
+            return $"Hello World! {id}";
         }
     }
+
+    
 }
