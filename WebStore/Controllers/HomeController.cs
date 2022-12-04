@@ -15,6 +15,4 @@ namespace WebStore.Controllers
             return $"Hello World! {id}";
         }
     }
-
-    
 }
