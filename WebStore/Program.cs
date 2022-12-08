@@ -11,6 +11,8 @@ if (app.Environment.IsDevelopment())
     app.UseDeveloperExceptionPage(); // Перехват всех ошибок
 }
 
+app.UseStaticFiles(); // Используем статические файлы (wwwroot)
+
 app.UseRouting(); // Добавляем маршрутизацию
 
 
