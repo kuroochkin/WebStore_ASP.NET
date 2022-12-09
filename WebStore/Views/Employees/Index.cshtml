@@ -1,15 +1,9 @@
 ﻿@model IEnumerable<WebStore.Models.Employee>
 
-<!DOCTYPE html>
+<div class="container">
+    <h3>Сотрудники</h3>
 
-<html>
-
-<head>
-    <title>Сотрудники</title>
-</head>
-
-<body>
-    <table>
+    <table class="table">
         <thead>
             <tr>
                 <th>Id</th>
@@ -21,7 +15,7 @@
         </thead>
 
         <tbode>
-            @foreach(var employee in Model)
+            @foreach (var employee in Model)
             {
                 <tr>
                     <td>@employee.Id</td>
@@ -38,7 +32,4 @@
     </table>
 
     <a href="/home">На главную</a>
-</body>
-
-</html>
-
+</div>
