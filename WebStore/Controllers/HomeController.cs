@@ -11,9 +11,7 @@ namespace WebStore.Controllers
             return View(); // Первое представление
         }
 
-        public string ConfiguredAction(string id)
-        {
-            return $"Hello World! {id}";
-        }
+        public IActionResult Contacts() => View();
+        
     }
 }
