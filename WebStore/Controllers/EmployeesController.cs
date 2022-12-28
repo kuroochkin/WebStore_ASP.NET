@@ -1,16 +1,17 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using WebStore.Data;
 using WebStore.Models;
 
 namespace WebStore.Controllers
 {
     public class EmployeesController : Controller
     {
-        private static readonly List<Employee> employees = new()
+        public ICollection<Employee> employees { get; set; }
+        public EmployeesController()
         {
-            new Employee {Id = 1, LastName = "КелИн", FirstName = "Кирилл", Patronymic = "Вячеславович", Age = 19},
-            new Employee {Id = 2, LastName = "Горбатых", FirstName = "Александр", Patronymic = "Андреевич", Age = 18},
-            new Employee {Id = 3, LastName = "Ярочевский", FirstName = "Максим", Patronymic = "Павлович", Age = 18}
-        };
+            this.employees = TestData.employees; // Получаем данные по сотрудникам из класса TestData
+        }
+
         public IActionResult Index()
         {
             return View(employees);
