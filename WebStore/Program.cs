@@ -1,8 +1,12 @@
 using WebStore.Infrastructure.Conventions;
+using WebStore.Services;
+using WebStore.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args); // Создаем builder
 
 var servises = builder.Services; // Добавляем сервисы
+servises.AddSingleton<IEmployeesData, InMemoryEmployeesData>(); // Singleton - потому что InMemory!
+
 servises.AddControllersWithViews(opt =>
 {
     opt.Conventions.Add(new TestConvention());
