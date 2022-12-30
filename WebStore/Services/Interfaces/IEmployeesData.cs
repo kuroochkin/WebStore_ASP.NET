@@ -9,6 +9,6 @@ namespace WebStore.Services.Interfaces
         Employee? GetById(int id); // Вернуть сотрудника по ID
         bool Edit(Employee employee); // Редактировать сотрудника
         bool Delete(int id); // Удаление сотрудника
-        int Add(int id); // Добавление сотрудника
+        int Add(Employee employee); // Добавление сотрудника
     }
 }
