@@ -1,11 +1,12 @@
 using WebStore.Infrastructure.Conventions;
+using WebStore.Infrastructure.Middleware;
 using WebStore.Services;
 using WebStore.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args); // Создаем builder
 
 var servises = builder.Services; // Добавляем сервисы
-servises.AddSingleton<IEmployeesData, InMemoryEmployeesData>(); // Singleton - потому что InMemory!
+servises.AddSingleton<IEmployeesData, InMemoryEmployeesData>(); // Singleton - потому что 
 
 servises.AddControllersWithViews(opt =>
 {
@@ -23,9 +24,11 @@ if (app.Environment.IsDevelopment())
 
 app.UseStaticFiles(); // Используем статические файлы (wwwroot)
 
-app.UseMiddleware<TestConvention>(); // Добавляем свое промежуточное ПО
+app.UseMiddleware<TestMiddleware>(); // Добавляем свое промежуточное ПО
 
 app.UseRouting(); // Добавляем маршрутизацию
+
+app.UseWelcomePage("/welcome");
 
 
 // app.MapDefaultControllerRoute(); // Добавляем default-маршрут
