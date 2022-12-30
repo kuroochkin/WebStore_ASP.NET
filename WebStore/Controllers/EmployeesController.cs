@@ -7,7 +7,7 @@ namespace WebStore.Controllers
 {
     public class EmployeesController : Controller
     {
-        public ICollection<Employee> employees { get; set; }
+        public ICollection<Employee> employees { get; set; } // Свойство для хранения сотрудников в контроллере
         public EmployeesController()
         {
             this.employees = TestData.employees; // Получаем данные по сотрудникам из класса TestData
@@ -44,11 +44,12 @@ namespace WebStore.Controllers
                 Age = employee.Age,
             };
             
-            return View(model);
+            return View(model); // Отправка модели на обработку
         }
 
         public IActionResult Edit(EmployeeEditViewModel model)
         {
+            // Обработка модели
             return RedirectToAction("Index");
         }
            
