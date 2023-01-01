@@ -6,12 +6,16 @@ namespace WebStore.Services
 {
     public class InMemoryEmployeesData : IEmployeesData
     {
+        private ILogger<InMemoryEmployeesData> _logger; 
+
         private ICollection<Employee> _employees;
+
         private int _MaxFreeId; // Максимальный свободный ID
-        public InMemoryEmployeesData()
+        public InMemoryEmployeesData(ILogger<InMemoryEmployeesData> logger)
         {
+            _logger = logger;
             _employees = TestData.employees; // Получаем сотрудников из TestData
-            _MaxFreeId = _employees.DefaultIfEmpty().Max(e => e?.Id ?? 0) + 1;
+            _MaxFreeId = _employees.DefaultIfEmpty().Max(e => e?.Id ?? 0);
         }
         public int Add(Employee employee)
         {
@@ -26,6 +30,7 @@ namespace WebStore.Services
             return employee.Id;
         }
 
+      
         public bool Delete(int id)
         {
             var employee = GetById(id);
@@ -33,6 +38,9 @@ namespace WebStore.Services
                 return false;
 
             _employees.Remove(employee);
+
+            _logger.LogInformation("Сотрудник с id: {0} был удален", id);
+
             return true;
         }
 
@@ -45,6 +53,11 @@ namespace WebStore.Services
                 return false;
 
             var db_employee = GetById(employee.Id);
+            if(db_employee is null)
+            {
+                _logger.LogWarning($"Попытка редактирования несуществующего сотрудника с Id: {employee.Id}");
+                return false;
+            }
             
             db_employee.FirstName = employee.FirstName;
             db_employee.LastName = employee.LastName;
@@ -52,6 +65,8 @@ namespace WebStore.Services
             db_employee.Age = employee.Age;
 
             //Когда будет БД не забыть вызвать SaveChanges()!!!
+
+            _logger.LogInformation("Информация о сотруднике id:{0} была изменена", employee.Id);
 
             return true;
         }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Reflection;
 using WebStore.Data;
 using WebStore.Models;
 using WebStore.Services.Interfaces;
@@ -29,14 +30,17 @@ namespace WebStore.Controllers
             return View(employee);
         }
 
-        public IActionResult Create() => View();
-        public IActionResult Edit(int id)
+        public IActionResult Create() => View("Edit", new EmployeeViewModel());
+        public IActionResult Edit(int? id)
         {
-            var employee = employees.GetById(id);
+            if (id is null)
+                return View(new EmployeeViewModel());
+
+            var employee = employees.GetById((int)id);
             if (employee is null)
                 return NotFound();
 
-            var model = new EmployeeEditViewModel
+            var model = new EmployeeViewModel
             {
                 Id = employee.Id,
                 LastName = employee.LastName,
@@ -49,7 +53,7 @@ namespace WebStore.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(EmployeeEditViewModel model)
+        public IActionResult Edit(EmployeeViewModel model)
         {
             var employee = new Employee
             {
@@ -60,15 +64,46 @@ namespace WebStore.Controllers
                 Age = model.Age,
             };
 
-            if (!employees.Edit(employee))
+            if(model.Id == 0)
+                employees.Add(employee);
+            else if (!employees.Edit(employee))
                 return NotFound();
                 
             // Обработка модели
             return RedirectToAction("Index");
         }
            
-        public IActionResult Delete(int id) => View();
+        public IActionResult Delete(int id)
+        {
+            if(id < 0)
+                return BadRequest();
+            
+            var employee = employees.GetById(id);
+            if (employee is null)
+                return NotFound();
 
+            var model = new EmployeeViewModel
+            {
+                Id = employee.Id,
+                LastName = employee.LastName,
+                Name = employee.FirstName,
+                Patronymic = employee.Patronymic,
+                Age = employee.Age,
+            };
 
+            return View(model); // Отправка модели на обработку
+        }
+
+        [HttpPost]
+        public IActionResult DeleteConfirmed(int id)
+        {
+            var employee = employees.GetById(id);
+            if (employee is null)
+                return NotFound();
+
+            employees.Delete(id);
+
+            return RedirectToAction("Index");
+        }
     }
 }
