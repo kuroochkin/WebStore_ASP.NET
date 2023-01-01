@@ -11,7 +11,7 @@ namespace WebStore.Services
         public InMemoryEmployeesData()
         {
             _employees = TestData.employees; // Получаем сотрудников из TestData
-            _MaxFreeId = _employees.DefaultIfEmpty().Max(e => e?.Id ?? 0) + 1;
+            _MaxFreeId = _employees.DefaultIfEmpty().Max(e => e?.Id ?? 0);
         }
         public int Add(Employee employee)
         {

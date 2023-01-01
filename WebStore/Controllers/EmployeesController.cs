@@ -30,10 +30,13 @@ namespace WebStore.Controllers
             return View(employee);
         }
 
-        public IActionResult Create() => View();
-        public IActionResult Edit(int id)
+        public IActionResult Create() => View("Edit", new EmployeeViewModel());
+        public IActionResult Edit(int? id)
         {
-            var employee = employees.GetById(id);
+            if (id is null)
+                return View(new EmployeeViewModel());
+
+            var employee = employees.GetById((int)id);
             if (employee is null)
                 return NotFound();
 
@@ -61,7 +64,9 @@ namespace WebStore.Controllers
                 Age = model.Age,
             };
 
-            if (!employees.Edit(employee))
+            if(model.Id == 0)
+                employees.Add(employee);
+            else if (!employees.Edit(employee))
                 return NotFound();
                 
             // Обработка модели
