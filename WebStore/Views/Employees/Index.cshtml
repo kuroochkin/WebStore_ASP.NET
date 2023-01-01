@@ -3,9 +3,13 @@
 <div class="container">
     <h3>Сотрудники</h3>
 
+    @if(Model.Any())
+    {
     <table class="table">
         <thead>
             <tr>
+                <th></th>
+                <th></th>
                 <th>Id</th>
                 <th>Фамилия</th>
                 <th>Имя</th>
@@ -18,20 +22,25 @@
             @foreach (var employee in Model)
             {
                 <tr>
+                    <td><a asp-controller="Employees" asp-action="Details" asp-route-Id="@employee.Id">Информация</a></td>
+                    <td><a asp-controller="Employees" asp-action="Edit" asp-route-Id="@employee.Id">Редактировать</a></td>
                     <td>@employee.Id</td>
                     <td>@employee.LastName</td>
                     <td>@employee.FirstName</td>
                     <td>@employee.Patronymic</td>
                     <td>@employee.Age</td>
                     <td>
-                        <a asp-controller="Employees" asp-action="Details" asp-route-Id="@employee.Id">Информация</a>
-                        <a asp-controller="Employees" asp-action="Edit" asp-route-Id="@employee.Id">Редактировать</a>
                         <a asp-controller="Employees" asp-action="Delete" asp-route-Id="@employee.Id">Удалить</a>
                     </td>
                 </tr>
             }
         </tbode>
     </table>
+    }
+    else
+    {
+        <p>Сотрудников нет!</p>
+    }
 
     <a href="/home">На главную</a>
 </div>
