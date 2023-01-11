@@ -2,7 +2,8 @@
 
 <div class="container">
     <h3>Сотрудники</h3>
-
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
+    
     <a class="btn btn-default" asp-action="Edit">Добавить сотрудника</a>
     
 
@@ -25,7 +26,9 @@
             @foreach (var employee in Model)
             {
                 <tr>
-                    <td><a asp-controller="Employees" asp-action="Details" asp-route-Id="@employee.Id">Информация</a></td>
+                    <td><a asp-controller="Employees" asp-action="Details" asp-route-Id="@employee.Id">Информация 
+                                <i class="fa fa-id-card" aria-hidden="true"></i>
+                    </a></td>
                     <td><a asp-controller="Employees" asp-action="Edit" asp-route-Id="@employee.Id">Редактировать</a></td>
                     <td>@employee.Id</td>
                     <td>@employee.LastName</td>
