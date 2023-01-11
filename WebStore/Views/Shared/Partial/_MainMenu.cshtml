@@ -4,7 +4,7 @@
 		<li class="dropdown">
 			<a href="#">Магазин<i class="fa fa-angle-down"></i></a>
 			<ul role="menu" class="sub-menu">
-				<li><a href="shop.html">Products</a></li>
+				<li><a asp-controller="Catalog" asp-action="Index">Каталог</a></li>
 				<li><a href="product-details.html">Product Details</a></li>
 				<li><a href="checkout.html">Checkout</a></li>
 				<li><a href="cart.html">Cart</a></li>
@@ -14,8 +14,8 @@
 		<li class="dropdown">
 			<a href="#">Blog<i class="fa fa-angle-down"></i></a>
 			<ul role="menu" class="sub-menu">
-				<li><a asp-controller = "Blogs" asp-action="Index">Blog List</a></li>
-				<li><a asp-controller="Blogs" asp-action="Blog">Blog Single</a></li>
+				<li><a asp-controller = "Blogs" asp-action="Index">Список блогов</a></li>
+				<li><a asp-controller="Blogs" asp-action="Blog">Блог магазина</a></li>
 			</ul>
 		</li>
 		<li><a href="404.html">404</a></li>
