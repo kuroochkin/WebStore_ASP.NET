@@ -14,7 +14,7 @@ namespace WebStore.Services
         {
             IEnumerable<Product> query = TestData.Products; // Получаем данные из TestData
 
-            if(Filter?.BrandId != null)
+            if(Filter?.BrandId != null) // Проверяем наличие фильра
                 query = query.Where(b => b.BrandId == Filter.BrandId);
 
             if (Filter?.SectionId != null)
