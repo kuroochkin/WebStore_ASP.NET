@@ -11,7 +11,7 @@ using WebStore.Domain.Entities.Base.Interfaces;
 namespace WebStore.Domain.Entities
 {
     [Index(nameof(Name), IsUnique = true)]
-    [Table("Brands")] // Указываем название таблицы
+    //[Table("Brands")] // Указываем название таблицы
     public class Brand : NamedEntity, IOrderedEntity
     {
         //[Column("BrandOrder")]

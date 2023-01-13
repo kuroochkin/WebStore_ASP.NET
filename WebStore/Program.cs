@@ -13,6 +13,7 @@ servises.AddSingleton<IProductData, InMemoryProductData>(); // Singleton - потом
 
 servises.AddDbContext<WebStoreDB>(opt =>
 opt.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer"))); // Подключение БД к сервисам
+servises.AddTransient<IDbInitializer, DbInitializer>(); // Регистрируем сервис заполнения данных в бд
 
 servises.AddControllersWithViews(opt =>
 {
@@ -22,6 +23,11 @@ servises.AddControllersWithViews(opt =>
 
 var app = builder.Build(); // Создаемм приложение
 
+await using (var scope = app.Services.CreateAsyncScope())
+{
+    var db_initializer = scope.ServiceProvider.GetRequiredService<IDbInitializer>();
+    await db_initializer.InitializeAsync(RemoveBefore: false); //Перед запуском программы бд удаляться не будет
+}
 
 if (app.Environment.IsDevelopment())
 {
