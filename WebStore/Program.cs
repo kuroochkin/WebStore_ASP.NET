@@ -12,7 +12,7 @@ servises.AddSingleton<IEmployeesData, InMemoryEmployeesData>(); // Singleton - п
 servises.AddSingleton<IProductData, InMemoryProductData>(); // Singleton - потому что InMemory
 
 servises.AddDbContext<WebStoreDB>(opt =>
-opt.UseSqlServer(builder.Configuration.GetConnectionString("SqlSever"))); // Подключение БД к сервисам
+opt.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer"))); // Подключение БД к сервисам
 
 servises.AddControllersWithViews(opt =>
 {

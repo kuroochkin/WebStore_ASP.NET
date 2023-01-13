@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.TagHelpers;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using WebStore.Services.Interfaces;
 using WebStore.ViewModels;
 
