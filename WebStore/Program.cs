@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+using WebStore.DAL.Context;
 using WebStore.Infrastructure.Conventions;
 using WebStore.Infrastructure.Middleware;
 using WebStore.Services;
@@ -8,6 +10,9 @@ var builder = WebApplication.CreateBuilder(args); // Создаем builder
 var servises = builder.Services; // Добавляем сервисы
 servises.AddSingleton<IEmployeesData, InMemoryEmployeesData>(); // Singleton - потому что InMemory
 servises.AddSingleton<IProductData, InMemoryProductData>(); // Singleton - потому что InMemory
+
+servises.AddDbContext<WebStoreDB>(opt =>
+opt.UseSqlServer(builder.Configuration.GetConnectionString("SqlSever"))); // Подключение БД к сервисам
 
 servises.AddControllersWithViews(opt =>
 {
