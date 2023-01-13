@@ -4,13 +4,14 @@ using WebStore.Infrastructure.Conventions;
 using WebStore.Infrastructure.Middleware;
 using WebStore.Services;
 using WebStore.Services.InMemory;
+using WebStore.Services.InSQL;
 using WebStore.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args); // Создаем builder
 
 var servises = builder.Services; // Добавляем сервисы
 servises.AddSingleton<IEmployeesData, InMemoryEmployeesData>(); // Singleton - потому что InMemory
-servises.AddSingleton<IProductData, InMemoryProductData>(); // Singleton - потому что InMemory
+servises.AddScoped<IProductData, SqlProductData>(); // !!! AddScoped !!!
 
 servises.AddDbContext<WebStoreDB>(opt =>
 opt.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer"))); // Подключение БД к сервисам
