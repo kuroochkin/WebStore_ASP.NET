@@ -3,7 +3,7 @@ using WebStore.Domain;
 using WebStore.Domain.Entities;
 using WebStore.Services.Interfaces;
 
-namespace WebStore.Services
+namespace WebStore.Services.InMemory
 {
     public class InMemoryProductData : IProductData
     {
@@ -14,7 +14,7 @@ namespace WebStore.Services
         {
             IEnumerable<Product> query = TestData.Products; // Получаем данные из TestData
 
-            if(Filter?.BrandId != null) // Проверяем наличие фильра
+            if (Filter?.BrandId != null) // Проверяем наличие фильра
                 query = query.Where(b => b.BrandId == Filter.BrandId);
 
             if (Filter?.SectionId != null)
@@ -22,6 +22,6 @@ namespace WebStore.Services
 
             return query;
         }
-       
+
     }
 }

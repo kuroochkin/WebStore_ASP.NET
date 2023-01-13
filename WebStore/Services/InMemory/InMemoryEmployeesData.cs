@@ -2,11 +2,11 @@
 using WebStore.Models;
 using WebStore.Services.Interfaces;
 
-namespace WebStore.Services
+namespace WebStore.Services.InMemory
 {
     public class InMemoryEmployeesData : IEmployeesData
     {
-        private ILogger<InMemoryEmployeesData> _logger; 
+        private ILogger<InMemoryEmployeesData> _logger;
 
         private ICollection<Employee> _employees;
 
@@ -19,10 +19,10 @@ namespace WebStore.Services
         }
         public int Add(Employee employee)
         {
-            if(employee is null)
+            if (employee is null)
                 throw new ArgumentNullException(nameof(employee));
 
-            if(_employees.Contains(employee)) // В БД это делать НЕ НАДО!
+            if (_employees.Contains(employee)) // В БД это делать НЕ НАДО!
                 return employee.Id;
 
             employee.Id = ++_MaxFreeId;
@@ -30,11 +30,11 @@ namespace WebStore.Services
             return employee.Id;
         }
 
-      
+
         public bool Delete(int id)
         {
             var employee = GetById(id);
-            if(employee is null)
+            if (employee is null)
                 return false;
 
             _employees.Remove(employee);
@@ -53,12 +53,12 @@ namespace WebStore.Services
                 return false;
 
             var db_employee = GetById(employee.Id);
-            if(db_employee is null)
+            if (db_employee is null)
             {
                 _logger.LogWarning($"Попытка редактирования несуществующего сотрудника с Id: {employee.Id}");
                 return false;
             }
-            
+
             db_employee.FirstName = employee.FirstName;
             db_employee.LastName = employee.LastName;
             db_employee.Patronymic = employee.Patronymic;
@@ -72,7 +72,7 @@ namespace WebStore.Services
         }
 
         public IEnumerable<Employee> GetAll() => _employees;
-       
+
 
         public Employee? GetById(int id)
         {
