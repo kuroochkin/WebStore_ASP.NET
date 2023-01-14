@@ -73,7 +73,12 @@ namespace WebStore.Controllers
 
             return View(Model);
         }
-        public IActionResult Logout() => RedirectToAction("Index", "Home"); // Выход из системы
+        public async Task<IActionResult> Logout()
+        {
+            await _SignInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
+        }
+
         public IActionResult AccessDenied() => View(); // Отказ в доступе
     }
 }
