@@ -44,7 +44,35 @@ namespace WebStore.Controllers
         }
 
 
-        public IActionResult Login() => View(); // Вход в систему
+        public IActionResult Login(string ReturnUrl) => View(new LoginViewModel { ReturnUrl = ReturnUrl });//Вход в систему
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(LoginViewModel Model)
+        {
+            if (!ModelState.IsValid)
+                return View(Model);
+
+            var login_result = await _SignInManager.PasswordSignInAsync( //Принимаем данные в login-result
+                Model.UserName,
+                Model.Password,
+                Model.RememberMe,
+                true);
+
+            if (login_result.Succeeded)
+            {
+                //return Redirect(Model.ReturnUrl); // Не безопасно!!!
+
+                //if(Url.IsLocalUrl(Model.ReturnUrl))
+                //    return Redirect(Model.ReturnUrl);
+                //return RedirectToAction("Index", "Home");
+
+                return LocalRedirect(Model.ReturnUrl ?? "/"); //Может быть пустой ссылкой
+            }
+
+            ModelState.AddModelError("", "Неверное имя пользователя, или пароль");
+
+            return View(Model);
+        }
         public IActionResult Logout() => RedirectToAction("Index", "Home"); // Выход из системы
         public IActionResult AccessDenied() => View(); // Отказ в доступе
     }
