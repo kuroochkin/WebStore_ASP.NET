@@ -18,10 +18,8 @@ namespace WebStore.Controllers
             _SignInManager = SignInManager;
         }
 
-
         public IActionResult Register() => View(new RegisterUserViewModel());// Регистрация
         
-
         [HttpPost]
         public async Task<IActionResult> Register(RegisterUserViewModel Model)//EmployeeViewModel model)
         {
