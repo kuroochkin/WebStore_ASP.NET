@@ -7,6 +7,6 @@ namespace WebStore.Controllers
         public IActionResult Register() => View(); // Регистрация
         public IActionResult Login() => View(); // Вход в систему
         public IActionResult Logout() => RedirectToAction("Index", "Home"); // Выход из системы
-        public IActionResult AccessDehied() => View(); // Отказ в доступе
+        public IActionResult AccessDenied() => View(); // Отказ в доступе
     }
 }
