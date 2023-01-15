@@ -49,9 +49,7 @@ namespace WebStore.Services.InSQL
         public bool Delete(int id)
         {
             //var employee = GetById(id);
-            var employee = _db.Employees
-               .Select(e => new Employee { Id = e.Id, }) // Неполная проекция - для экономии памяти и времени на передачу данных
-               .FirstOrDefault(e => e.Id == id);
+            var employee = _db.Employees.Find(id);
 
             if (employee is null)
                 return false;
