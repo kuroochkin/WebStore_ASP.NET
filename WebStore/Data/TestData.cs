@@ -1,5 +1,6 @@
 ﻿using WebStore.Domain.Entities;
 using WebStore.Models;
+using Employee = WebStore.Domain.Entities.Employee;
 
 namespace WebStore.Data
 {
