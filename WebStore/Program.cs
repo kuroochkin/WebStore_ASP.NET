@@ -63,7 +63,7 @@ services.AddControllersWithViews(opt =>
 }
 );// Добавляем MVC
 
-var app = builder.Build(); // Создаемм приложение
+var app = builder.Build(); // Создаем приложение
 
 await using (var scope = app.Services.CreateAsyncScope())
 {

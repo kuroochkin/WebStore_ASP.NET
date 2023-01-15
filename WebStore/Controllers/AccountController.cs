@@ -20,7 +20,7 @@ namespace WebStore.Controllers
 
         public IActionResult Register() => View(new RegisterUserViewModel());// Регистрация
         
-        [HttpPost]
+        [HttpPost, ValidateAntiForgeryToken] //ValidateAntiForgeryToken - безопасность
         public async Task<IActionResult> Register(RegisterUserViewModel Model)//EmployeeViewModel model)
         {
             if (!ModelState.IsValid)
@@ -75,7 +75,7 @@ namespace WebStore.Controllers
         }
         public async Task<IActionResult> Logout()
         {
-            await _SignInManager.SignOutAsync();
+            await _SignInManager.SignOutAsync(); // Выход из системы
             return RedirectToAction("Index", "Home");
         }
 
