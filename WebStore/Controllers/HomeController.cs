@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Linq.Expressions;
-using WebStore.Models;
 using WebStore.Services.Interfaces;
 using WebStore.ViewModels;
 

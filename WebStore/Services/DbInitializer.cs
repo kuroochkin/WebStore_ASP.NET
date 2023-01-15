@@ -32,8 +32,8 @@ namespace WebStore.Services
                 _Logger.LogInformation("Выполнение миграции БД выполнено успешно");
             }
 
-
             await InitializeProductsAsync(Cancel).ConfigureAwait(false); // Инициализация товаров
+            await InitializeEmployeesAsync(Cancel).ConfigureAwait(false); // Инициализация сотрудников
 
             _Logger.LogInformation("Инициализация БД выполнена успешно");
         }
@@ -103,6 +103,26 @@ namespace WebStore.Services
             }
             
             _Logger.LogInformation("Инициализация тестовых данных БД выполнена успешно");
+        }
+
+        private async Task InitializeEmployeesAsync(CancellationToken Cancel)
+        {
+            if (await _db.Employees.AnyAsync(Cancel))
+            {
+                _Logger.LogInformation("Инициализация сотрудников не требуется");
+                return;
+            }
+
+            _Logger.LogInformation("Инициализация сотрудников...");
+            await using var transaction = await _db.Database.BeginTransactionAsync(Cancel);
+
+            TestData.employees.ForEach(employee => employee.Id = 0);
+
+            await _db.Employees.AddRangeAsync(TestData.employees, Cancel);
+            await _db.SaveChangesAsync(Cancel);
+
+            await transaction.CommitAsync(Cancel);
+            _Logger.LogInformation("Инициализация сотрудников выполнена успешно");
         }
     }
 }

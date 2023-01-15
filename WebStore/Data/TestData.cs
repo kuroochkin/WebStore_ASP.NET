@@ -1,5 +1,5 @@
 ﻿using WebStore.Domain.Entities;
-using WebStore.Models;
+using Employee = WebStore.Domain.Entities.Employee;
 
 namespace WebStore.Data
 {
@@ -7,9 +7,9 @@ namespace WebStore.Data
     {
         public static List<Employee> employees { get; } = new()
         {
-            new Employee {Id = 1, LastName = "Келин", FirstName = "Кирилл", Patronymic = "Вячеславович", Age = 19},
-            new Employee {Id = 2, LastName = "Горбатых", FirstName = "Александр", Patronymic = "Андреевич", Age = 18},
-            new Employee {Id = 3, LastName = "Ярочевский", FirstName = "Максим", Patronymic = "Павлович", Age = 18}
+            new Employee {LastName = "Келин", FirstName = "Кирилл", Patronymic = "Вячеславович", Age = 19},
+            new Employee {LastName = "Горбатых", FirstName = "Александр", Patronymic = "Андреевич", Age = 18},
+            new Employee {LastName = "Ярочевский", FirstName = "Максим", Patronymic = "Павлович", Age = 18}
         };
 
         public static IEnumerable<Section> Sections { get; } = new[]

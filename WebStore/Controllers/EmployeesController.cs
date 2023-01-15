@@ -1,12 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Reflection;
-using WebStore.Data;
-using WebStore.Models;
+using WebStore.Domain.Entities;
 using WebStore.Services.Interfaces;
 using WebStore.ViewModels;
 
 namespace WebStore.Controllers
 {
+    [Authorize]
     public class EmployeesController : Controller
     {
         public IEmployeesData employees { get; set; } // Свойство для хранения сотрудников в контроллере через сервис
