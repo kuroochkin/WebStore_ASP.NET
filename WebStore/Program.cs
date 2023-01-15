@@ -12,7 +12,8 @@ using WebStore.Services.Interfaces;
 var builder = WebApplication.CreateBuilder(args); // Создаем builder
 
 var services = builder.Services; // Добавляем сервисы
-services.AddSingleton<IEmployeesData, InMemoryEmployeesData>(); // Singleton - потому что InMemory
+
+services.AddScoped<IEmployeesData, SqlEmployeesData>(); 
 services.AddScoped<IProductData, SqlProductData>(); // !!! AddScoped !!!
 
 services.AddIdentity<User, Role>()
