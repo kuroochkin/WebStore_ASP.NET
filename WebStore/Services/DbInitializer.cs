@@ -32,7 +32,6 @@ namespace WebStore.Services
                 _Logger.LogInformation("Выполнение миграции БД выполнено успешно");
             }
 
-
             await InitializeProductsAsync(Cancel).ConfigureAwait(false); // Инициализация товаров
             await InitializeEmployeesAsync(Cancel).ConfigureAwait(false); // Инициализация сотрудников
 
