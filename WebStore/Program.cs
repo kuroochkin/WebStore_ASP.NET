@@ -5,7 +5,6 @@ using WebStore.Domain.Entities.Identity;
 using WebStore.Infrastructure.Conventions;
 using WebStore.Infrastructure.Middleware;
 using WebStore.Services;
-using WebStore.Services.InMemory;
 using WebStore.Services.InSQL;
 using WebStore.Services.Interfaces;
 
@@ -84,7 +83,7 @@ app.UseMiddleware<TestMiddleware>(); // Добавляем свое промежуточное ПО
 app.UseRouting(); // Добавляем маршрутизацию
 
 app.UseAuthentication(); 
-app.UseAuthorization(); // Проверяет, може тли пользователь "добраться" до контроллеров
+app.UseAuthorization(); // Проверяет, может ли пользователь "добраться" до контроллеров
 
 app.UseWelcomePage("/welcome");
 

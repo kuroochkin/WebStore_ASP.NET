@@ -65,43 +65,46 @@ namespace WebStore.Services
             //Добавляем секции
             _Logger.LogInformation("Добавление секций в БД ...");
 
-            await using (await _db.Database.BeginTransactionAsync(Cancel))
+            var section_pool = TestData.Sections.ToDictionary(s => s.Id);
+            var brands_pool = TestData.Brands.ToDictionary(b => b.Id);
+
+            foreach(var child_section in TestData.Sections.Where(s => s.ParentId is not null))
+                child_section.Parent = section_pool[(int)child_section.ParentId!];
+
+            foreach (var product in TestData.Products)
             {
-                await _db.Sections.AddRangeAsync(TestData.Sections, Cancel); // Добавляем все секции
+                product.Section = section_pool[product.SectionId]; // Устанавливаем родительскую секцию из пула секций
 
-                await _db.Database.ExecuteSqlRawAsync("SET IDENTITY_INSERT [dbo].[Sections] ON", Cancel); // Разрешаем себе добавлять самим Id
-                await _db.SaveChangesAsync(Cancel); // Сохраняем бд
-                await _db.Database.ExecuteSqlRawAsync("SET IDENTITY_INSERT [dbo].[Sections] OFF", Cancel); // Запрещаем себе добавлять самим Id
+                if (product.BrandId is { } brand_id) // И устанавливаем Brand если он есть
+                    product.Brand = brands_pool[brand_id];
 
-                await _db.Database.CommitTransactionAsync(Cancel);
+                product.Id = 0; // Очищаем данные Id (EF установит сама!!!) 
+                product.BrandId = null;
+                product.SectionId = 0;
             }
 
-            _Logger.LogInformation("Добавление брендов в БД ...");
-            //Добавляем бренды
+            foreach(var section in TestData.Sections)
+            {
+                section.Id = 0; // Очищаем данные Id (EF установит сама!!!) 
+                section.ParentId = null;
+            }
+
+            foreach (var brand in TestData.Brands)
+                brand.Id = 0; // Очищаем данные Id (EF установит сама!!!) 
+
             await using (await _db.Database.BeginTransactionAsync(Cancel))
             {
+                await _db.Sections.AddRangeAsync(TestData.Sections, Cancel);
                 await _db.Brands.AddRangeAsync(TestData.Brands, Cancel);
-
-                await _db.Database.ExecuteSqlRawAsync("SET IDENTITY_INSERT [dbo].[Brands] ON", Cancel);
-                await _db.SaveChangesAsync(Cancel);
-                await _db.Database.ExecuteSqlRawAsync("SET IDENTITY_INSERT [dbo].[Brands] OFF", Cancel);
-
-                await _db.Database.CommitTransactionAsync(Cancel);
-            }
-
-            _Logger.LogInformation("Добавление товаров в БД ...");
-            //Добавляем товары
-            await using (await _db.Database.BeginTransactionAsync(Cancel))
-            {
                 await _db.Products.AddRangeAsync(TestData.Products, Cancel);
 
-                await _db.Database.ExecuteSqlRawAsync("SET IDENTITY_INSERT [dbo].[Products] ON", Cancel);
                 await _db.SaveChangesAsync(Cancel);
-                await _db.Database.ExecuteSqlRawAsync("SET IDENTITY_INSERT [dbo].[Products] OFF", Cancel);
-
+                
                 await _db.Database.CommitTransactionAsync(Cancel);
+
             }
             
+
             _Logger.LogInformation("Инициализация тестовых данных БД выполнена успешно");
         }
 
