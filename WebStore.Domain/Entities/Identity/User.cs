@@ -9,6 +9,6 @@ namespace WebStore.Domain.Entities.Identity
 {
     public class User : IdentityUser
     {
-        public string AboutMyself = "";
+        public string AboutMyself = ""; //Костыль
     }
 }
