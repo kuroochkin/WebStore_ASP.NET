@@ -1,6 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 using WebStore.DAL.Context;
 using WebStore.Data;
+using WebStore.Domain.Entities.Identity;
 using WebStore.Services.Interfaces;
 
 namespace WebStore.Services
@@ -8,12 +11,20 @@ namespace WebStore.Services
     public class DbInitializer : IDbInitializer
     {
         private readonly WebStoreDB _db;
+        private readonly UserManager<User> _UserManager;
+        private readonly RoleManager<Role> _RoleManager;
         private readonly ILogger<DbInitializer> _Logger;
 
-        public DbInitializer(WebStoreDB db, ILogger<DbInitializer> logger)
+
+        public DbInitializer(WebStoreDB db,
+            UserManager<User> UserManager,
+        RoleManager<Role> RoleManager,
+        ILogger<DbInitializer> logger)
         {
             _db = db;
             _Logger = logger;
+            _UserManager = UserManager;
+            _RoleManager = RoleManager;
         }
         public async Task InitializeAsync(bool RemoveBefore = false, CancellationToken Cancel = default)
         {
@@ -61,14 +72,14 @@ namespace WebStore.Services
 
             _Logger.LogInformation("Инициализация тестовых данных БД ...");
 
-            
+
             //Добавляем секции
             _Logger.LogInformation("Добавление секций в БД ...");
 
             var section_pool = TestData.Sections.ToDictionary(s => s.Id);
             var brands_pool = TestData.Brands.ToDictionary(b => b.Id);
 
-            foreach(var child_section in TestData.Sections.Where(s => s.ParentId is not null))
+            foreach (var child_section in TestData.Sections.Where(s => s.ParentId is not null))
                 child_section.Parent = section_pool[(int)child_section.ParentId!];
 
             foreach (var product in TestData.Products)
@@ -83,7 +94,7 @@ namespace WebStore.Services
                 product.SectionId = 0;
             }
 
-            foreach(var section in TestData.Sections)
+            foreach (var section in TestData.Sections)
             {
                 section.Id = 0; // Очищаем данные Id (EF установит сама!!!) 
                 section.ParentId = null;
@@ -99,11 +110,11 @@ namespace WebStore.Services
                 await _db.Products.AddRangeAsync(TestData.Products, Cancel);
 
                 await _db.SaveChangesAsync(Cancel);
-                
+
                 await _db.Database.CommitTransactionAsync(Cancel);
 
             }
-            
+
 
             _Logger.LogInformation("Инициализация тестовых данных БД выполнена успешно");
         }
@@ -127,5 +138,38 @@ namespace WebStore.Services
             await transaction.CommitAsync(Cancel);
             _Logger.LogInformation("Инициализация сотрудников выполнена успешно");
         }
+
+        private async Task InitializeIdentityAsync(CancellationToken Cancel)
+        {
+            _Logger.LogInformation("Инициализация данных системы Identity");
+
+            var timer = Stopwatch.StartNew();
+
+            async Task CheckRole(string RoleName) // локальная функция
+            {
+                if (await _RoleManager.RoleExistsAsync(RoleName))
+                    _Logger.LogInformation("Роль {0} существует в БД. {1} с.", RoleName, timer.Elapsed.TotalSeconds);
+                else
+                {
+                    _Logger.LogInformation("Роль {0} не существует в БД. {1} с.", RoleName, timer.Elapsed.TotalSeconds);
+
+                    await _RoleManager.CreateAsync(new Role { Name = RoleName });
+
+                    _Logger.LogInformation("Роль {0} создана. {1} с.", RoleName, timer.Elapsed.TotalSeconds);
+                }
+            }
+
+            await CheckRole(Role.Users);
+            await CheckRole(Role.Administrators);
+
+            if(await _UserManager.FindByNameAsync(User.Administrator) is null)
+            {
+                _Logger.LogInformation("Пользователь {0} отсутствует в БД. Создаю... {1} с.", User.Administrator, timer.Elapsed.TotalSeconds);
+
+
+            }
+                
+        }
     }
 }
+
