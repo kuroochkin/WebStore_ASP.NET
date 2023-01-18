@@ -365,3 +365,5 @@ FodyWeavers.xsd
 /WebStore/wwwroot/css/site.css
 /WebStore/wwwroot/js/site.js
 /WebStore/wwwroot/js/site.min.js
+/WebStore/wwwroot/js/site.min.js.gz
+/WebStore/wwwroot/js/site.min.js.map
