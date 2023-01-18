@@ -12,6 +12,8 @@ namespace WebStore.Domain.Entities.Identity
         public const string Administrator = "Admin";
 
         public const string DefaultAdminPassword = "AdPAss_123";
-        
+
+        public string AboutMyself = ""; //Костыль
+
     }
 }
