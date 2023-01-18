@@ -165,8 +165,6 @@ namespace WebStore.Services
             if(await _UserManager.FindByNameAsync(User.Administrator) is null)
             {
                 _Logger.LogInformation("Пользователь {0} отсутствует в БД. Создаю... {1} с.", User.Administrator, timer.Elapsed.TotalSeconds);
-
-
             }
                 
         }
