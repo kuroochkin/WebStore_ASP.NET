@@ -46,6 +46,7 @@ namespace WebStore.Services
 
             await InitializeProductsAsync(Cancel).ConfigureAwait(false); // Инициализация товаров
             await InitializeEmployeesAsync(Cancel).ConfigureAwait(false); // Инициализация сотрудников
+            await InitializeIdentityAsync(Cancel).ConfigureAwait(false); // Инициализация Identity
 
             _Logger.LogInformation("Инициализация БД выполнена успешно");
         }
@@ -146,34 +147,35 @@ namespace WebStore.Services
 
             var timer = Stopwatch.StartNew();
 
-            async Task CheckRole(string RoleName)
+            async Task CheckRole(string RoleName) // Метод проверяющий роль 
             {
-                if (await _RoleManager.RoleExistsAsync(RoleName))
+                if (await _RoleManager.RoleExistsAsync(RoleName)) // Если роль найдена
                     _Logger.LogInformation("Роль {0} существует в БД. {1} c", RoleName, timer.Elapsed.TotalSeconds);
-                else
+                else // Если роль не найдена, то создаем её
                 {
                     _Logger.LogInformation("Роль {0} не существует в БД. {1} c", RoleName, timer.Elapsed.TotalSeconds);
 
-                    await _RoleManager.CreateAsync(new Role { Name = RoleName });
+                    await _RoleManager.CreateAsync(new Role { Name = RoleName }); 
 
                     _Logger.LogInformation("Роль {0} создана. {1} c", RoleName, timer.Elapsed.TotalSeconds);
                 }
             }
 
-            await CheckRole(Role.Administrators);
-            await CheckRole(Role.Users);
+            await CheckRole(Role.Administrators); //Используем метод для проверки наличия администратора
+            await CheckRole(Role.Users); //Используем метод для проверки наличия обычного пользователя
 
-            if (await _UserManager.FindByNameAsync(User.Administrator) is null)
+            //Администратор обязательно должен быть!!!
+            if (await _UserManager.FindByNameAsync(User.Administrator) is null) 
             {
                 _Logger.LogInformation("Пользователь {0} отсутствует в БД. Создаю... {1} c", User.Administrator, timer.Elapsed.TotalSeconds);
 
                 var admin = new User
                 {
-                    UserName = User.Administrator,
+                    UserName = User.Administrator, // Присваиваем имя
                 };
 
                 var creation_result = await _UserManager.CreateAsync(admin, User.DefaultAdminPassword);
-                if (creation_result.Succeeded)
+                if (creation_result.Succeeded) // Успех создания администратора
                 {
                     _Logger.LogInformation("Пользователь {0} создан успешно. Наделяю его правами администратора... {1} c", User.Administrator, timer.Elapsed.TotalSeconds);
 
@@ -183,8 +185,8 @@ namespace WebStore.Services
                 }
                 else
                 {
-                    var errors = creation_result.Errors.Select(err => err.Description);
-                    _Logger.LogError("Учётная запись администратора не создана. Ошибки:{0}", string.Join(", ", errors));
+                    var errors = creation_result.Errors.Select(err => err.Description); 
+                    _Logger.LogError("Учётная запись администратора не создана. Ошибки:{0}", string.Join(", ", errors)); // Нужен более сложный пароль!
 
                     throw new InvalidOperationException($"Невозможно создать пользователя {User.Administrator} по причине: {string.Join(", ", errors)}");
                 }
