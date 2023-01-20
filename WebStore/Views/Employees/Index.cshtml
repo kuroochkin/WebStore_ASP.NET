@@ -1,10 +1,14 @@
-﻿@model IEnumerable<WebStore.Domain.Entities.Employee>
+﻿@using WebStore.Domain.Entities.Identity
+@model IEnumerable<WebStore.Domain.Entities.Employee>
 
 <div class="container">
     <h3>Сотрудники</h3>
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
     
-    <a class="btn btn-default" asp-action="Edit">Добавить сотрудника</a>
+    @if(User.IsInRole(Role.Administrators))
+    {
+        <a class="btn btn-default" asp-action="Edit">Добавить сотрудника</a>
+    }
     
 
     @if(Model.Any())
@@ -12,8 +16,15 @@
     <table class="table">
         <thead>
             <tr>
-                <th></th>
-                <th></th>
+                @if (User.IsInRole(Role.Administrators))
+                {
+                  <th></th>
+                  <th></th>
+                }
+                @if (User.IsInRole(Role.Users))
+                {
+                  <th></th>
+                }
                 <th>Id</th>
                     <th>@Html.DisplayNameFor(model => model.LastName)</th>
                     <th>@Html.DisplayNameFor(model => model.FirstName)</th>
@@ -29,15 +40,21 @@
                     <td><a asp-controller="Employees" asp-action="Details" asp-route-Id="@employee.Id">Информация 
                                 <i class="fa fa-id-card" aria-hidden="true"></i>
                     </a></td>
-                    <td><a asp-controller="Employees" asp-action="Edit" asp-route-Id="@employee.Id">Редактировать</a></td>
+                        @if (User.IsInRole(Role.Administrators))
+                        {
+                            <td><a asp-controller="Employees" asp-action="Edit" asp-route-Id="@employee.Id">Редактировать</a></td>
+                        }
                     <td>@employee.Id</td>
                     <td>@employee.LastName</td>
                     <td>@employee.FirstName</td>
                     <td>@employee.Patronymic</td>
                     <td>@employee.Age</td>
-                    <td>
-                        <a asp-controller="Employees" asp-action="Delete" asp-route-Id="@employee.Id">Удалить</a>
-                    </td>
+                    @if(User.IsInRole(Role.Administrators))
+                    {
+                        <td>
+                          <a asp-controller="Employees" asp-action="Delete" asp-route-Id="@employee.Id">Удалить</a>
+                       </td>
+                    }
                 </tr>
             }
         </tbode>
