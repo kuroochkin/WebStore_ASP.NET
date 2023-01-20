@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Reflection;
 using WebStore.Domain.Entities;
+using WebStore.Domain.Entities.Identity;
 using WebStore.Services.Interfaces;
 using WebStore.ViewModels;
 
@@ -32,6 +33,8 @@ namespace WebStore.Controllers
         }
 
         public IActionResult Create() => View("Edit", new EmployeeViewModel());
+
+        [Authorize(Roles = Role.Administrators)] // Чтобы редактировать сотрудников нужно быть админом
         public IActionResult Edit(int? id)
         {
             if (id is null)
@@ -54,6 +57,7 @@ namespace WebStore.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = Role.Administrators)]
         public IActionResult Edit(EmployeeViewModel model)
         {
             if(!ModelState.IsValid)
@@ -76,7 +80,8 @@ namespace WebStore.Controllers
             // Обработка модели
             return RedirectToAction("Index");
         }
-           
+
+        [Authorize(Roles = Role.Administrators)]
         public IActionResult Delete(int id)
         {
             if(id < 0)
@@ -99,6 +104,7 @@ namespace WebStore.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = Role.Administrators)]
         public IActionResult DeleteConfirmed(int id)
         {
             var employee = employees.GetById(id);
