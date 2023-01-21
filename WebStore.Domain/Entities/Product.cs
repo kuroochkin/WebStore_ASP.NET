@@ -14,15 +14,16 @@ namespace WebStore.Domain.Entities
     public class Product : NamedEntity, IOrderedEntity
     {
         public int Order { get; set; }
-        public int SectionId { get; set; } // Секция, в которой находится продукт
+
+        public int SectionId { get; set; }
 
         [ForeignKey(nameof(SectionId))]
-        public Section Section { get; set; } // Навигационное свойство (внешний ключ)
+        public Section Section { get; set; }
 
-        public int? BrandId { get; set; } // Бренд продукта
+        public int? BrandId { get; set; }
 
         [ForeignKey(nameof(BrandId))]
-        public Brand Brand { get; set; }
+        public Brand? Brand { get; set; }
 
         public string ImageUrl { get; set; }
 

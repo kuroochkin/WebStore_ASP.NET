@@ -6,7 +6,7 @@ namespace WebStore.Infrastructure.Mapping
 {
     public static class ProductMapper
     {
-        public static ProductViewModel? ToView(this Product product) => product is null
+        public static ProductViewModel? ToView(this Product? product) => product is null
             ? null
             : new ProductViewModel // создаем из товара его ViewModel
             {
@@ -14,6 +14,8 @@ namespace WebStore.Infrastructure.Mapping
                 Name = product.Name,
                 Price = product.Price,
                 ImageUrl = product.ImageUrl,
+                Section = product.Section.Name,
+                Brand = product.Brand?.Name,
             };
 
         public static Product? FromView(this ProductViewModel product) => product is null
@@ -28,7 +30,7 @@ namespace WebStore.Infrastructure.Mapping
 
         public static IEnumerable<ProductViewModel?> ToView(this IEnumerable<Product?> products) => products.Select(ToView);
 
-        public static IEnumerable<Product?> ToView(this IEnumerable<ProductViewModel?> products) => products.Select(FromView);
+        public static IEnumerable<Product?> FromView(this IEnumerable<ProductViewModel?> products) => products.Select(FromView);
 
     }
 }

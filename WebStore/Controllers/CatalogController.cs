@@ -38,7 +38,7 @@ namespace WebStore.Controllers
             if (product is null)
                 return NotFound();
 
-             return View(product);
+             return View(product.ToView());
         }
     }
 }
