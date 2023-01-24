@@ -25,7 +25,7 @@ namespace WebStore.Controllers
                 BrandId = BrandId,
                 SectionId = SectionId,
 
-                Products = products.OrderBy(p => p.Order).ToView(),    
+                Products = products.OrderBy(p => p.Order).ToView(),  
             };
 
             return View(catalog_model);
