@@ -8,7 +8,7 @@
 			<div class="breadcrumbs">
 				<ol class="breadcrumb">
 				  <li><a href="#">Home</a></li>
-				  <li class="active">Shopping Корзина</li>
+				  <li class="active">Корзина</li>
 				</ol>
 			</div>
 			<div class="table-responsive cart_info">
@@ -27,24 +27,27 @@
 						@foreach(var (product,quantity) in Model.Items)
 						{
 						<tr>
-							<td class="cart_product">
-								<a href=""><img src="~/images/shop/@product.ImageUrl" alt=""></a>
-							</td>
 							<td class="cart_description">
-								<h4><a href="">Colorblock Scuba</a></h4>
+								<a href=""><img src="~/images/shop/@product.ImageUrl" width="150" height="170" alt=""></a>
+							</td>
+							
+						
+			
+							<td class="cart_description">
+								<h4><a asp-controller="Catalog" asp-action="Details" asp-route-Id="@product.Id"> @product.Name </a></h4>
 								<p>Артикул: @product.Id.ToString("0000000")</p>
 							</td>
-							<td class="cart_price">
+							<td class="cart_description">
 								<p>@product.Price.ToString("C")</p>
 							</td>
-							<td class="cart_quantity">
+							<td class="cart_description">
 								<div class="cart_quantity_button">
-									<a class="cart_quantity_up" asp-controller="Cart" asp-action="Add" asp-route-Id="@product.Id"> + </a>
-									<input class="cart_quantity_input" type="text" name="quantity" value="@quantity" autocomplete="off" size="2">
 									<a class="cart_quantity_down" asp-controller="Cart" asp-action="Decrement" asp-route-Id="@product.Id"> - </a>
+									<input class="cart_quantity_input" type="text" name="quantity" value="@quantity" autocomplete="off" size="1">
+									<a class="cart_description" asp-controller="Cart" asp-action="Add" asp-route-Id="@product.Id"> + </a>
 								</div>
 							</td>
-							<td class="cart_total">
+							<td class="cart_description">
 								<p class="cart_total_price">@(product.Price * quantity)</p>
 							</td>
 							<td class="cart_delete">
