@@ -23,11 +23,7 @@
                         <ul>
                             @foreach (var child_section in parent_section.ChildSection)
                             {
-                                <li>
-                                    <a href="#">
-                                        @child_section.Name
-                                    </a>
-                                </li>
+                                <li><a asp-controller="Account" asp-action="Register"><i class="fa fa-user"></i> Регистрация</a></li>
                             }
                         </ul>
                     </div>

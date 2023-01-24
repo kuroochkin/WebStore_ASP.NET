@@ -43,6 +43,8 @@ namespace WebStore.Data
             new Brand { Id = 1, Name = "Sony", Order = 0 },
             new Brand { Id = 2, Name = "Apple", Order = 1 },
             new Brand { Id = 3, Name = "Microsoft", Order = 2 },
+            new Brand { Id = 4, Name = "Electronic Arts", Order = 3 },
+
             //new Brand { Id = 4, Name = "Ronhill", Order = 3 },
             //new Brand { Id = 5, Name = "Oddmolly", Order = 4 },
             //new Brand { Id = 6, Name = "Boudestijn", Order = 5 },
@@ -52,10 +54,8 @@ namespace WebStore.Data
         public static IEnumerable<Product> Products { get; } = new[]
         {
             //Картинки лежат в images/shop
-            new Product { Id = 1, Name = "Sony PlayStation 5 + Руль Logitech G29 Driving Force и педали + Игра  F1 2021", Price = 95448, ImageUrl = "ps5.jpg", Order = 0, SectionId = 2, BrandId = 1 },
-           
-            
-
+           new Product { Id = 1, Name = "Sony PlayStation 5 + Руль Logitech G29 Driving Force и педали + Игра  F1 2021", Price = 95448, ImageUrl = "ps5.jpg", Order = 0, SectionId = 2, BrandId = 1 },
+           new Product { Id = 2, Name = "Игра FIFA 23 (PS5, русская версия)", Price = 4989, ImageUrl = "fifa23.jpg", Order = 1, SectionId = 4, BrandId = 4 },
 
         };
     }
