@@ -10,5 +10,6 @@ namespace WebStore.Domain
     {
         public int? SectionId { get; set; } // Секция, в которой находится продукт
         public int? BrandId { get; set; } // Бренд продукта
+        public int[]? Ids { get; set; }
     }
 }

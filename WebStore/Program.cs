@@ -5,6 +5,7 @@ using WebStore.Domain.Entities.Identity;
 using WebStore.Infrastructure.Conventions;
 using WebStore.Infrastructure.Middleware;
 using WebStore.Services;
+using WebStore.Services.InCookies;
 using WebStore.Services.InSQL;
 using WebStore.Services.Interfaces;
 
@@ -14,6 +15,8 @@ var services = builder.Services; // Добавляем сервисы
 
 services.AddScoped<IEmployeesData, SqlEmployeesData>(); 
 services.AddScoped<IProductData, SqlProductData>(); // !!! AddScoped !!!
+services.AddScoped<ICartService, InCookiesCartService>();
+
 
 services.AddIdentity<User, Role>()
    .AddEntityFrameworkStores<WebStoreDB>()
