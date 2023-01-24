@@ -39,16 +39,16 @@
 							</td>
 							<td class="cart_quantity">
 								<div class="cart_quantity_button">
-									<a class="cart_quantity_up" href=""> + </a>
+									<a class="cart_quantity_up" asp-controller="Cart" asp-action="Add" asp-route-Id="@product.Id"> + </a>
 									<input class="cart_quantity_input" type="text" name="quantity" value="@quantity" autocomplete="off" size="2">
-									<a class="cart_quantity_down" href=""> - </a>
+									<a class="cart_quantity_down" asp-controller="Cart" asp-action="Decrement" asp-route-Id="@product.Id"> - </a>
 								</div>
 							</td>
 							<td class="cart_total">
 								<p class="cart_total_price">@(product.Price * quantity)</p>
 							</td>
 							<td class="cart_delete">
-								<a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
+								<a class="cart_quantity_delete" asp-controller="Cart" asp-action="Remove" asp-route-Id="@product.Id"><i class="fa fa-times"></i></a>
 							</td>
 						</tr>
 						}
