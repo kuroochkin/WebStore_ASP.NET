@@ -56,7 +56,17 @@ namespace WebStore.Data
             //Картинки лежат в images/shop
            new Product { Id = 1, Name = "Sony PlayStation 5 + Руль Logitech G29 Driving Force и педали + Игра  F1 2021", Price = 95448, ImageUrl = "ps5.jpg", Order = 0, SectionId = 2, BrandId = 1 },
            new Product { Id = 2, Name = "Игра FIFA 23 (PS5, русская версия)", Price = 4989, ImageUrl = "fifa23.jpg", Order = 1, SectionId = 4, BrandId = 4 },
-
+           new Product { Id = 3, Name = "Игра Gran Turismo 7 (PS5, русская версия)", Price = 4989, ImageUrl = "turismo.jpg", Order = 2, SectionId = 4, BrandId = 4 },
+           new Product { Id = 4, Name = "Игра Marvel's Spider-Man Miles Morales (PS4, русская версия)", Price = 3789, ImageUrl = "spider.jpg", Order = 3, SectionId = 4, BrandId = 4 },
+           new Product { Id = 5, Name = "Игра Resident Evil 3 Remake (PS4, русская версия)", Price = 2589, ImageUrl = "resident.jpg", Order = 4, SectionId = 4, BrandId = 4 },
+           new Product { Id = 6, Name = "Игра NHL 22 (PS4, русская версия)", Price = 4489, ImageUrl = "nhl.jpg", Order = 5, SectionId = 4, BrandId = 4 },
+           new Product { Id = 7, Name = "Игра NBA 2K21 (XBOX One)", Price = 4489, ImageUrl = "nba21.jpg", Order = 6, SectionId = 4, BrandId = 4 },
+           new Product { Id = 8, Name = "Геймпад Sony DualSense Galactic Purple (галактический пурпурный)", Price = 6189, ImageUrl = "gamepad1.jpg", Order = 7, SectionId = 3, BrandId = 1 },
+           new Product { Id = 9, Name = "Геймпад Sony DualSense Cosmic Red (космический красный)", Price = 5989, ImageUrl = "gamepad2.jpg", Order = 8, SectionId = 3, BrandId = 1 },
+           new Product { Id = 10, Name = "Геймпад Microsoft Xbox Series X|S Wireless Controller Shock Blue (синий)", Price = 6589, ImageUrl = "gamepad3.jpg", Order = 9, SectionId = 3, BrandId = 3 },
+           new Product { Id = 11, Name = "Геймпад Sony DualShock 4 V2 White (белый ледник)", Price = 5889, ImageUrl = "gamepad4.jpg", Order = 10, SectionId = 3, BrandId = 1 },
+           new Product { Id = 12, Name = "Игровая консоль Sony PlayStation 4 Slim (1TB) (CUH-2208B) (РосТест)", Price = 43989, ImageUrl = "ps4.jpg", Order = 11, SectionId = 2, BrandId = 1 },
+           new Product { Id = 13, Name = "Microsoft XBOX Series X + 2-й геймпад (Elite Series 2 Core)", Price = 57948, ImageUrl = "xbox.jpg", Order = 12, SectionId = 2, BrandId = 3 },
         };
     }
 }
