@@ -10,7 +10,7 @@ namespace WebStore.Controllers
     {
         private readonly IProductData _ProductData;
         public CatalogController(IProductData ProductData) => _ProductData = ProductData;
-        public IActionResult Index(int? BrandId, int? SectionId)
+        public IActionResult Index(int? SectionId, int? BrandId)
         {
             var filter = new ProductFilter
             {
@@ -25,7 +25,7 @@ namespace WebStore.Controllers
                 BrandId = BrandId,
                 SectionId = SectionId,
 
-                Products = products.OrderBy(p => p.Order).ToView(),    
+                Products = products.OrderBy(p => p.Order).ToView(),  
             };
 
             return View(catalog_model);
@@ -40,5 +40,7 @@ namespace WebStore.Controllers
 
              return View(product.ToView());
         }
+
+       
     }
 }

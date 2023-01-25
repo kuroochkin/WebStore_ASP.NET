@@ -1,6 +1,5 @@
 ﻿@model IEnumerable<SectionViewModel>
 
-
 <h2>Категории</h2>
 <div class="panel-group category-products" id="accordian">
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
@@ -23,11 +22,7 @@
                         <ul>
                             @foreach (var child_section in parent_section.ChildSection)
                             {
-                                <li>
-                                    <a href="#">
-                                        @child_section.Name
-                                    </a>
-                                </li>
+                                <li><a asp-controller="Catalog" asp-action="Index" asp-route-SectionId="@child_section.Id"> @child_section.Name</a></li>
                             }
                         </ul>
                     </div>
