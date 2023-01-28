@@ -71,7 +71,7 @@ var app = builder.Build(); // Создаем приложение
 await using (var scope = app.Services.CreateAsyncScope())
 {
     var db_initializer = scope.ServiceProvider.GetRequiredService<IDbInitializer>();
-    await db_initializer.InitializeAsync(RemoveBefore: false); //Перед запуском программы бд удаляться не будет
+    await db_initializer.InitializeAsync(RemoveBefore: false).ConfigureAwait(true); //Перед запуском программы бд удаляться не будет
 }
 
 if (app.Environment.IsDevelopment())
@@ -90,11 +90,18 @@ app.UseAuthorization(); // Проверяет, может ли пользователь "добраться" до контр
 
 app.UseWelcomePage("/welcome");
 
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+      name: "areas",
+      pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+    );
+
+    endpoints.MapControllerRoute( // Собственный маршрут
+       name: "default",
+       pattern: "{controller=Home}/{action=Index}/{id?}"
+    );
+});
 
 // app.MapDefaultControllerRoute(); // Добавляем default-маршрут
-
-app.MapControllerRoute( // Собственный маршрут
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
-
 app.Run(); // Запуск программы
