@@ -16,6 +16,8 @@ var services = builder.Services; // Добавляем сервисы
 services.AddScoped<IEmployeesData, SqlEmployeesData>(); 
 services.AddScoped<IProductData, SqlProductData>(); // !!! AddScoped !!!
 services.AddScoped<ICartService, InCookiesCartService>();
+services.AddScoped<IUsersData, SqlUsersData>();
+
 
 
 services.AddIdentity<User, Role>()
