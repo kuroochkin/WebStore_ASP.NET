@@ -81,6 +81,40 @@ namespace WebStore.Areas.Admin.Controllers
 
             return RedirectToAction("Index");
         }
+
+        public IActionResult Delete(int Id)
+        {
+            if (Id < 0)
+                return BadRequest();
+
+            var product = _ProductData.GetProductById(Id);
+            if (product is null)
+                return NotFound();
+
+            var model = new ProductViewModel
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Section = product.Section.Name,
+                Brand = product.Brand?.Name,
+                ImageUrl = product.ImageUrl,
+                Price = product.Price,
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult DeleteConfirmed(int Id)
+        {
+            var product = _ProductData.GetProductById(Id);
+            if (product is null)
+                return NotFound();
+
+            _ProductData.Delete(Id);
+
+            return RedirectToAction("Index", "Products");
+        }
     }
     
 }

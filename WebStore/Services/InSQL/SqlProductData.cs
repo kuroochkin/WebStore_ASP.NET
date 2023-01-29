@@ -62,12 +62,6 @@ namespace WebStore.Services.InSQL
 
         public bool Edit(Product product)
         {
-           
-
-            //_db.SaveChanges();
-
-            //return true;
-
             if (product is null)
                 throw new ArgumentException(nameof(product));
 
@@ -76,19 +70,30 @@ namespace WebStore.Services.InSQL
             if (db_product is null)
                 return false;
 
-            
-
             _db.Products.Update(db_product);
             _db.SaveChanges();
 
             return true;
         }
 
+        public bool Delete(int Id)
+        {
+            var product = _db.Products.FirstOrDefault(p => p.Id == Id);
 
+            if (product is null)
+                return false;
+
+            _db.Products.Remove(product);
+            _db.SaveChanges();
+
+            return true;
+        }
 
         public Product CreateProduct(string Name, string Order, decimal Price, string ImageIrl, string Section, string Brand)
         {
             throw new NotImplementedException();
         }
+
+        
     }
 }

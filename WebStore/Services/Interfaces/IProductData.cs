@@ -20,5 +20,7 @@ namespace WebStore.Services.Interfaces
 
         Product CreateProduct(string Name, string Order, decimal Price, string ImageIrl, string Section, string Brand);
         bool Edit(Product product);
+
+        bool Delete(int Id);
     }
 }
