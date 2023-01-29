@@ -92,7 +92,7 @@ app.UseWelcomePage("/welcome");
 
 app.UseEndpoints(endpoints =>
 {
-    endpoints.MapControllerRoute(
+    endpoints.MapControllerRoute( // Areas(ведет в область)
       name: "areas",
       pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
     );
