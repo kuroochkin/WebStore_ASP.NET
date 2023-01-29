@@ -1,0 +1,31 @@
+﻿@using WebStore.Domain.Entities.Identity
+@model IEnumerable<WebStore.Domain.Entities.Identity.User>
+
+<div class="container">
+    <h3>Пользователи</h3>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>@Html.DisplayNameFor(model => model.UserName)</th>
+            <th>@Html.DisplayNameFor(model => model.Email)</th>
+            <th>@Html.DisplayNameFor(model => model.PhoneNumber)</th>
+        </tr>
+    </thead>
+
+    <tbode>
+        @foreach (var user in Model)
+        {
+            <tr>
+                
+                <td>@user.Id</td>
+                <td>@user.UserName</td>
+                <td>@user.Email</td>
+                <td>@user.PhoneNumber</td>
+
+            </tr>
+        }
+    </tbode>
+</table>
+</div>

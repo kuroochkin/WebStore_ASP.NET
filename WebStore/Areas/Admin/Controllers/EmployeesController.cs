@@ -8,7 +8,8 @@ using WebStore.ViewModels;
 
 namespace WebStore.Controllers
 {
-    [Authorize]
+    [Area("Admin")]
+    [Authorize(Roles = Role.Administrators)]
     public class EmployeesController : Controller
     {
         public IEmployeesData employees { get; set; } // Свойство для хранения сотрудников в контроллере через сервис
