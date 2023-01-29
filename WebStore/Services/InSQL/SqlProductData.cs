@@ -42,5 +42,53 @@ namespace WebStore.Services.InSQL
             .Include(p => p.Section)
             .FirstOrDefault(p => p.Id == Id);
 
+        public Brand? GetBrandById(int? Id)
+        {
+            var brand = _db.Brands
+                .Include(b => b.Products)
+                .FirstOrDefault(b => b.Id == Id);
+
+            return brand;
+        }
+
+        public Section GetSectionById(int Id)
+        {
+            var section = _db.Sections
+                .Include(s => s.Products)
+                .FirstOrDefault(s => s.Id == Id);
+
+            return section;
+        }
+
+        public bool Edit(Product product)
+        {
+           
+
+            //_db.SaveChanges();
+
+            //return true;
+
+            if (product is null)
+                throw new ArgumentException(nameof(product));
+
+            var db_product = GetProductById(product.Id);
+
+            if (db_product is null)
+                return false;
+
+            
+
+            _db.Products.Update(db_product);
+            _db.SaveChanges();
+
+            return true;
+        }
+
+
+
+        public Product CreateProduct(string Name, string Order, decimal Price, string ImageIrl, string Section, string Brand)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
