@@ -1,7 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Data;
+using WebStore.Domain.Entities.Identity;
 
 namespace WebStore.Areas.Admin.Controllers
 {
+    [Area("Admin")]
+    [Authorize(Roles = Role.Administrators)]
     public class ProductsController : Controller
     {
         public IActionResult Index()
