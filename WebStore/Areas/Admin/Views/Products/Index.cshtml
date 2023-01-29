@@ -25,7 +25,7 @@
             
             <tr>
                 <td>
-                    <a>Редактировать</a>
+                 <a asp-controller="Products" asp-action="Edit" asp-route-Id="@product.Id">Редактировать</a>
                 </td>
                 <td>@Html.DisplayFor(_ => product.Id)</td>
                 <td>@Html.DisplayFor(_ => product.Name)</td>
@@ -37,7 +37,7 @@
                 <td>@Html.DisplayFor(_ => product.Price)</td>
 
                 <td>
-                    <a>Удалить</a>
+                    <a asp-controller="Products" asp-action="Delete" asp-route-Id="@product.Id">Удалить</a>
                 </td>
             </tr>
         }
