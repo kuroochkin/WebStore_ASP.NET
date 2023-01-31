@@ -18,9 +18,8 @@ namespace WebStore.Services.Interfaces
 
         Product GetProductById(int Id); // поиск товара по Id
 
-        Product CreateProduct(string Name, string Order, decimal Price, string ImageIrl, string Section, string Brand);
+        Product CreateProduct(string Name, string Order, decimal Price, string ImageIrl, string Section, string? Brand = null);
         bool Edit(Product product);
-
         bool Delete(int Id);
     }
 }
