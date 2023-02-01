@@ -14,7 +14,7 @@ namespace WebStore.Domain.Entities.Orders
 
         public int Quantity { get; set; }
 
-        public Order Order { get; set; }
+        public Order Order { get; set; } = null!;
 
         [NotMapped] // НЕ БУДЕТ В БД
         public decimal TotalItemsPrice => Price * Quantity;
