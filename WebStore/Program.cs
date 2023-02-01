@@ -17,6 +17,7 @@ services.AddScoped<IEmployeesData, SqlEmployeesData>();
 services.AddScoped<IProductData, SqlProductData>(); // !!! AddScoped !!!
 services.AddScoped<ICartService, InCookiesCartService>();
 services.AddScoped<IUsersData, SqlUsersData>();
+services.AddScoped<IOrderService, SqlOrderService>();
 
 
 

@@ -89,9 +89,41 @@ namespace WebStore.Services.InSQL
             return true;
         }
 
-        public Product CreateProduct(string Name, string Order, decimal Price, string ImageIrl, string Section, string Brand)
+        public Product CreateProduct(
+            string Name, 
+            int Order, 
+            decimal Price, 
+            string ImageIrl, 
+            string Section, 
+            string Brand)
         {
-            throw new NotImplementedException();
+            var section = _db.Sections.FirstOrDefault(s => s.Name == Section);
+
+            if (section is null)
+            {
+                section = new Section { Name = Section};
+            }
+
+            var brand = Brand is { Length: > 0 }
+                ? _db.Brands.FirstOrDefault(b => b.Name == Brand)
+                ?? new Brand { Name = Brand }
+                : null;
+            
+
+            var product = new Product
+            {
+                Name = Name,
+                Price = Price,
+                Order = Order,
+                ImageUrl = ImageIrl,
+                Section = section,
+                Brand = brand,
+            };
+
+            _db.Products.Add(product); // добавляем в бд
+            _db.SaveChanges();
+
+            return product;
         }
 
         
