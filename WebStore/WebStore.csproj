@@ -6,6 +6,13 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="wwwroot\images\myshop\**" />
+    <Content Remove="wwwroot\images\myshop\**" />
+    <EmbeddedResource Remove="wwwroot\images\myshop\**" />
+    <None Remove="wwwroot\images\myshop\**" />
+  </ItemGroup>
+
   
 
   <ItemGroup>
@@ -26,7 +33,6 @@
   <ItemGroup>
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Admin\Models\" />
-    <Folder Include="wwwroot\images\myshop\console\" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties libman_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
