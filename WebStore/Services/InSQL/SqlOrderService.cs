@@ -64,17 +64,17 @@ namespace WebStore.Services.InSQL
                 Description = OrderModel.Description,
             };
 
-            var products_ids = Cart.Items.Select(item => item.Product.Id).ToArray();
+            var products_ids = Cart.Items.Select(item => item.Product.Id).ToArray(); //массив id
 
             var cart_products = await _db.Products
                .Where(p => products_ids.Contains(p.Id))
                .ToArrayAsync(Cancel)
-               .ConfigureAwait(false);
+               .ConfigureAwait(false); // массив продуктов в корзине
 
             order.Items = Cart.Items.Join(
-                cart_products,
-                cart_item => cart_item.Product.Id,
-                cart_product => cart_product.Id,
+                cart_products, //к заказу хотим присоединить содержимое корзины
+                cart_item => cart_item.Product.Id, // соединяем по Id товара из корзины
+                cart_product => cart_product.Id, // и соединяем по Id товара из каталога
                 (cart_item, cart_product) => new OrderItem
                 {
                     Order = order,
