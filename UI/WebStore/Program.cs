@@ -4,10 +4,12 @@ using WebStore.DAL.Context;
 using WebStore.Domain.Entities.Identity;
 using WebStore.Infrastructure.Conventions;
 using WebStore.Infrastructure.Middleware;
+using WebStore.Interfaces.Services;
 using WebStore.Services;
 using WebStore.Services.InCookies;
 using WebStore.Services.InSQL;
 using WebStore.Services.Interfaces;
+using WebStore.WebAPI.Clients.Values;
 
 var builder = WebApplication.CreateBuilder(args); // Создаем builder
 
@@ -18,6 +20,9 @@ services.AddScoped<IProductData, SqlProductData>(); // !!! AddScoped !!!
 services.AddScoped<ICartService, InCookiesCartService>();
 services.AddScoped<IUsersData, SqlUsersData>();
 services.AddScoped<IOrderService, SqlOrderService>();
+
+var configuration = builder.Configuration;
+services.AddHttpClient<IValuesService, ValuesClient>(client => client.BaseAddress = new(configuration["WebAPI"]));
 
 
 
