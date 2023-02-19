@@ -12,7 +12,7 @@ namespace WebStore.Interfaces.Services
 
         int Count();
 
-        string GetById(int Id);
+        string? GetById(int Id);
 
         void Add(string value);
 
