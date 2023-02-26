@@ -9,6 +9,7 @@ using WebStore.Services;
 using WebStore.Services.InCookies;
 using WebStore.Services.InSQL;
 using WebStore.Services.Interfaces;
+using WebStore.WebAPI.Clients.Employees;
 using WebStore.WebAPI.Clients.Values;
 
 var builder = WebApplication.CreateBuilder(args); // Создаем builder
@@ -23,6 +24,7 @@ services.AddScoped<IOrderService, SqlOrderService>();
 
 var configuration = builder.Configuration;
 services.AddHttpClient<IValuesService, ValuesClient>(client => client.BaseAddress = new(configuration["WebAPI"]));
+services.AddHttpClient<IEmployeesData, EmployeesClient>(client => client.BaseAddress = new(configuration["WebAPI"]));
 
 
 
