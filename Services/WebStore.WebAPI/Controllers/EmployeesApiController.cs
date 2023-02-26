@@ -43,7 +43,7 @@ namespace WebStore.WebAPI.Controllers
             return Ok();
         }
 
-        [HttpDelete("{Id")]
+        [HttpDelete("{Id}")]
         public IActionResult Delete(int Id)
         {
             var result = _EmployeesData.Delete(Id);
