@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
 using WebStore.Domain;
+using WebStore.Domain.DTO;
 using WebStore.Domain.Entities;
 using WebStore.Services.Interfaces;
 using WebStore.WebAPI.Clients.Base;
@@ -16,9 +18,20 @@ namespace WebStore.WebAPI.Clients.Products
         {
         }
 
-        public Product CreateProduct(string Name, int Order, decimal Price, string ImageIrl, string Section, string? Brand = null)
+        public Product CreateProduct(string Name, int Order, decimal Price, string ImageUrl, string Section, string? Brand = null)
         {
-            throw new NotImplementedException();
+            var response = Post($"{Address}/new/", new CreateProductDTO
+            {
+                Name = Name,
+                Order = Order,
+                Price = Price,
+                ImageUrl = ImageUrl,
+                Section = Section,
+                Brand = Brand,
+            });
+
+            var product = response.Content.ReadFromJsonAsync<Product>().Result;
+            return product!;
         }
 
         public bool Delete(int Id)
@@ -33,32 +46,39 @@ namespace WebStore.WebAPI.Clients.Products
 
         public Brand? GetBrandById(int? id)
         {
-            throw new NotImplementedException();
+            var brand = Get<Brand>($"{Address}/sections/{id}");
+            return brand;
         }
 
         public IEnumerable<Brand> GetBrands()
         {
-            throw new NotImplementedException();
+            var brands = Get<IEnumerable<Brand>>($"{Address}/brands");
+            return brands!;
         }
 
-        public Product GetProductById(int Id)
+        public Product? GetProductById(int Id)
         {
-            throw new NotImplementedException();
+            var product = Get<Product>($"{Address}/{Id}");
+            return product;
         }
 
         public IEnumerable<Product> GetProducts(ProductFilter? Filter = null)
         {
-            throw new NotImplementedException();
+            var response = Post(Address, Filter ?? new());
+            var products = response.Content.ReadFromJsonAsync<IEnumerable<Product>>().Result;
+            return products!;
         }
 
         public IEnumerable<Section> GetSection()
         {
-            throw new NotImplementedException();
+            var sections = Get<IEnumerable<Section>>($"{Address}/sections");
+            return sections!;
         }
 
         public Section? GetSectionById(int id)
         {
-            throw new NotImplementedException();
+            var section = Get<Section>($"{Address}/sections/{id}");
+            return section;
         }
     }
 }
