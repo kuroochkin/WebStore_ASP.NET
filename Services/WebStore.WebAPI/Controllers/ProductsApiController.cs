@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WebStore.Domain;
 using WebStore.Domain.DTO;
+using WebStore.Domain.Entities;
 using WebStore.Services.Interfaces;
 
 namespace WebStore.WebAPI.Controllers
@@ -19,8 +20,8 @@ namespace WebStore.WebAPI.Controllers
         [HttpGet("sections")]
         public IActionResult GetSection()
         {
-            var section = _ProductData.GetSection();
-            return Ok(section);
+            var sections = _ProductData.GetSection();
+            return Ok(sections.ToDTO());
         }
 
         [HttpGet("sections/{Id}")]
@@ -29,14 +30,14 @@ namespace WebStore.WebAPI.Controllers
             var section = _ProductData.GetSectionById(Id);
             if (section is null)
                 return NotFound();
-            return Ok(section);
+            return Ok(section.ToDTO());
         }
 
         [HttpGet("brands")]
         public IActionResult GetBrands()
         {
             var brands = _ProductData.GetBrands();
-            return Ok(brands);
+            return Ok(brands.ToDTO());
         }
 
         [HttpGet("brands/{Id}")]
@@ -45,14 +46,14 @@ namespace WebStore.WebAPI.Controllers
             var brand = _ProductData.GetBrandById(Id);
             if (brand is null)
                 return NotFound();
-            return Ok(brand);
+            return Ok(brand.ToDTO());
         }
 
         [HttpPost]
         public IActionResult GetProducts(ProductFilter? Filter = null)
         {
             var products = _ProductData.GetProducts(Filter);
-            return Ok(products);
+            return Ok(products.ToDTO());
         }
 
         [HttpGet("{Id}")]
@@ -61,14 +62,30 @@ namespace WebStore.WebAPI.Controllers
             var product = _ProductData.GetProductById(Id);
             if (product is null)
                 return NotFound();
-            return Ok(product);
+            return Ok(product.ToDTO());
+        }
+
+        [HttpPut]
+        public IActionResult Update(Product product)
+        {
+            var success = _ProductData.Edit(product);
+            return Ok(success);
+        }
+
+        [HttpDelete("{Id}")]
+        public IActionResult Delete(int Id)
+        {
+            var result = _ProductData.Delete(Id);
+            return result
+                ? Ok(true)
+                : NotFound();
         }
 
         [HttpPost("new/{Name}")]
         public IActionResult CreateProduct(CreateProductDTO Model)
         {
             var product = _ProductData.CreateProduct(Model.Name, Model.Order, Model.Price, Model.ImageUrl, Model.Brand);
-            return CreatedAtAction(nameof(GetProductGyId), new { Id = product.Id }, product);
+            return CreatedAtAction(nameof(GetProductGyId), new { Id = product.Id }, product.ToDTO());
         }
     }
 }

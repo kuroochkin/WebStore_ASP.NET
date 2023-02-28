@@ -18,7 +18,7 @@ var builder = WebApplication.CreateBuilder(args); // Создаем builder
 var services = builder.Services; // Добавляем сервисы
 
 //services.AddScoped<IEmployeesData, SqlEmployeesData>(); 
-//services.AddScoped<IProductData, SqlProductData>(); // !!! AddScoped !!!
+services.AddScoped<IProductData, SqlProductData>(); // !!! AddScoped !!!
 services.AddScoped<ICartService, InCookiesCartService>();
 services.AddScoped<IUsersData, SqlUsersData>();
 services.AddScoped<IOrderService, SqlOrderService>();

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Json;
@@ -30,55 +31,64 @@ namespace WebStore.WebAPI.Clients.Products
                 Brand = Brand,
             });
 
-            var product = response.Content.ReadFromJsonAsync<Product>().Result;
-            return product!;
+            var product = response.Content.ReadFromJsonAsync<ProductDTO>().Result;
+            return product!.FromDTO()!;
         }
 
+        [HttpDelete("{Id}")]
         public bool Delete(int Id)
         {
-            throw new NotImplementedException();
+            var response = Delete($"{Address}/{Id}");
+            var success = response.IsSuccessStatusCode;
+            return success;
         }
 
         public bool Edit(Product product)
         {
-            throw new NotImplementedException();
+            var response = Put(Address, product);
+            var success = response.EnsureSuccessStatusCode()
+                .Content
+                .ReadFromJsonAsync<bool>()
+                .Result;
+
+            return success;
         }
 
         public Brand? GetBrandById(int? id)
         {
-            var brand = Get<Brand>($"{Address}/sections/{id}");
-            return brand;
+            var brand = Get<BrandDTO>($"{Address}/sections/{id}");
+            return brand.FromDTO();
         }
 
         public IEnumerable<Brand> GetBrands()
         {
-            var brands = Get<IEnumerable<Brand>>($"{Address}/brands");
-            return brands!;
+            var brands = Get<IEnumerable<BrandDTO>>($"{Address}/brands");
+            return brands!.FromDTO()!;
         }
 
         public Product? GetProductById(int Id)
         {
-            var product = Get<Product>($"{Address}/{Id}");
-            return product;
+            var product = Get<ProductDTO>($"{Address}/{Id}");
+            return product.FromDTO();
         }
 
         public IEnumerable<Product> GetProducts(ProductFilter? Filter = null)
         {
             var response = Post(Address, Filter ?? new());
-            var products = response.Content.ReadFromJsonAsync<IEnumerable<Product>>().Result;
-            return products!;
+            var products = response.Content.ReadFromJsonAsync<IEnumerable<ProductDTO>>().Result;
+            return products!.FromDTO()!;
         }
 
         public IEnumerable<Section> GetSection()
         {
-            var sections = Get<IEnumerable<Section>>($"{Address}/sections");
-            return sections!;
+            var sections = Get<IEnumerable<SectionDTO>>($"{Address}/sections");
+            return sections!.FromDTO()!;
         }
 
         public Section? GetSectionById(int id)
         {
-            var section = Get<Section>($"{Address}/sections/{id}");
-            return section;
+            var section = Get<SectionDTO>($"{Address}/sections/{id}");
+            return section.FromDTO();
         }
     }
 }
