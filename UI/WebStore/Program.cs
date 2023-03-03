@@ -10,6 +10,7 @@ using WebStore.Services.InCookies;
 using WebStore.Services.InSQL;
 using WebStore.Services.Interfaces;
 using WebStore.WebAPI.Clients.Employees;
+using WebStore.WebAPI.Clients.Orders;
 using WebStore.WebAPI.Clients.Products;
 using WebStore.WebAPI.Clients.Values;
 
@@ -18,8 +19,8 @@ var builder = WebApplication.CreateBuilder(args); // Создаем builder
 var services = builder.Services; // Добавляем сервисы
 
 //services.AddScoped<IEmployeesData, SqlEmployeesData>(); 
-services.AddScoped<IProductData, SqlProductData>(); // !!! AddScoped !!!
-services.AddScoped<ICartService, InCookiesCartService>();
+//services.AddScoped<IProductData, SqlProductData>(); // !!! AddScoped !!!
+//services.AddScoped<ICartService, InCookiesCartService>();
 services.AddScoped<IUsersData, SqlUsersData>();
 services.AddScoped<IOrderService, SqlOrderService>();
 
@@ -27,6 +28,7 @@ var configuration = builder.Configuration;
 services.AddHttpClient<IValuesService, ValuesClient>(client => client.BaseAddress = new(configuration["WebAPI"]));
 services.AddHttpClient<IEmployeesData, EmployeesClient>(client => client.BaseAddress = new(configuration["WebAPI"]));
 services.AddHttpClient<IProductData, ProductsClient>(client => client.BaseAddress = new(configuration["WebAPI"]));
+services.AddHttpClient<IOrderService, OrdersClient>(client => client.BaseAddress = new(configuration["WebAPI"]));
 
 
 
