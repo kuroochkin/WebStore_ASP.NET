@@ -16,7 +16,7 @@ namespace WebStore.Services.Interfaces
         Brand? GetBrandById(int? id);
         IEnumerable<Product> GetProducts(ProductFilter? Filter = null); // Можно и не указывать фильтр в параметрах
 
-        Product GetProductById(int Id); // поиск товара по Id
+        Product? GetProductById(int Id); // поиск товара по Id
 
         Product CreateProduct(string Name, int Order, decimal Price, string ImageIrl, string Section, string? Brand = null);
         bool Edit(Product product);
