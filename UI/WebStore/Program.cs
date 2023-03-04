@@ -20,9 +20,9 @@ var services = builder.Services; // Добавляем сервисы
 
 //services.AddScoped<IEmployeesData, SqlEmployeesData>(); 
 //services.AddScoped<IProductData, SqlProductData>(); // !!! AddScoped !!!
-//services.AddScoped<ICartService, InCookiesCartService>();
+services.AddScoped<ICartService, InCookiesCartService>();
 services.AddScoped<IUsersData, SqlUsersData>();
-services.AddScoped<IOrderService, SqlOrderService>();
+//services.AddScoped<IOrderService, SqlOrderService>();
 
 var configuration = builder.Configuration;
 services.AddHttpClient<IValuesService, ValuesClient>(client => client.BaseAddress = new(configuration["WebAPI"]));
