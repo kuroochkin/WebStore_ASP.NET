@@ -1,6 +1,8 @@
-﻿<div class="container">
+﻿@using WebStore.Domain.Entities.Identity
 
-    <h2>Вы действительно хотите выйти?</h2>
+<div class="container">
+
+    <h4> @User.Identity.Name, Вы действительно хотите выйти?</h4>
 
     <a type="button" class="btn btn-default"
        asp-controller="Account" asp-action="Logout">
