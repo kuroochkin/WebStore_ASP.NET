@@ -4,6 +4,7 @@ using WebStore.ViewModels;
 
 namespace WebStore.Components
 {
+    [ViewComponent]
     public class BrandsViewComponent : ViewComponent
     {
         private readonly IProductData _ProductData;

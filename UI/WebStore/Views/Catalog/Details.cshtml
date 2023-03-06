@@ -21,7 +21,7 @@
 							<div id="similar-product" class="carousel slide" data-ride="carousel">
 								
 								  <!-- Wrapper for slides -->
-								    <div class="carousel-inner">
+								    @*<div class="carousel-inner">
 										<div class="item active">
 										  <a href=""><img src="~/images/product-details/similar1.jpg" alt=""></a>
 										  <a href=""><img src="~/images/product-details/similar2.jpg" alt=""></a>
@@ -38,15 +38,15 @@
 									<a href=""><img src="~/images/product-details/similar3.jpg" alt=""></a>
 										</div>
 										
-									</div>
+									</div>*@
 
 								  <!-- Controls -->
-								  <a class="left item-control" href="#similar-product" data-slide="prev">
+								  @*<a class="left item-control" href="#similar-product" data-slide="prev">
 									<i class="fa fa-angle-left"></i>
 								  </a>
 								  <a class="right item-control" href="#similar-product" data-slide="next">
 									<i class="fa fa-angle-right"></i>
-								  </a>
+								  </a>*@
 							</div>
 
 						</div>
@@ -57,15 +57,15 @@
 								<p>Артикул: @Model.Id.ToString("0000000")</p>
 							    <img src="~/images/product-details/rating.png" alt="" />
 								<span>
-									<span>@Model.Price.ToString("C")</span>
-									<label>Количество:</label>
-									<input type="text" value="3" />
-									<button type="button" class="btn btn-default cart"
-									asp-controller="Cart" asp-action="Add" asp-route-Id="@Model.Id">
-										<i class="fa fa-shopping-cart"></i>
-										В корзину
-									</button>
-								</span>
+                                    <span>@Model.Price.ToString("C")</span>
+                                    <label>Количество:</label>
+                                    <input type="text" value="1" />
+                                    <a type="button" class="btn btn-default cart"
+                                       asp-controller="Cart" asp-action="Add" asp-route-Id="@Model.Id">
+                                        <i class="fa fa-shopping-cart"></i>
+                                        В корзину
+                                    </a>
+                                </span>
 								<p><b>Доступность:</b> На складе</p>
 								<p><b>Состояние:</b> Новое</p>
 							    <p><b>Категория:</b> @Model.Section</p>
