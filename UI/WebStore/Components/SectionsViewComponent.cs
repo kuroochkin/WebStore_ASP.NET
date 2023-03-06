@@ -6,6 +6,7 @@ using WebStore.ViewModels;
 
 namespace WebStore.Components
 {
+    [ViewComponent]
     public class SectionsViewComponent : ViewComponent
     {
         private readonly IProductData _ProductData;
