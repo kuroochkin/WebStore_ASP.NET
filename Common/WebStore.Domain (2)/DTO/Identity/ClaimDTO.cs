@@ -11,7 +11,7 @@ namespace WebStore.Domain.DTO.Identity
 
 	public class RemoveClaimDTO : ClaimDTO { }
 
-	public class RemplaceClaimDTO : UserDTO
+	public class ReplaceClaimDTO : UserDTO
 	{
 		public Claim Claim { get; set; }
 		public Claim NewClaim { get; set; }
