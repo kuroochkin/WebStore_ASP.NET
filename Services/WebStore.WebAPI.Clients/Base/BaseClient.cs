@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,7 +25,8 @@ namespace WebStore.WebAPI.Clients.Base
         protected async Task<T?> GetAsync<T>(string url, CancellationToken Cancel = default)
         {
             var response = await Http.GetAsync(url, Cancel).ConfigureAwait(false); // в responce получаем ответ от сервера
-            return await response
+            if (response.StatusCode == HttpStatusCode.NoContent) return default;
+				return await response
                 .EnsureSuccessStatusCode()
                 .Content
                 .ReadFromJsonAsync<T>(cancellationToken: Cancel) // десериализация

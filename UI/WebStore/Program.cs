@@ -10,6 +10,7 @@ using WebStore.Services.InCookies;
 using WebStore.Services.InSQL;
 using WebStore.Services.Interfaces;
 using WebStore.WebAPI.Clients.Employees;
+using WebStore.WebAPI.Clients.Identity;
 using WebStore.WebAPI.Clients.Orders;
 using WebStore.WebAPI.Clients.Products;
 using WebStore.WebAPI.Clients.Values;
@@ -33,8 +34,19 @@ services.AddHttpClient<IOrderService, OrdersClient>(client => client.BaseAddress
 
 
 services.AddIdentity<User, Role>()
-   .AddEntityFrameworkStores<WebStoreDB>()
+   //.AddEntityFrameworkStores<WebStoreDB>()
    .AddDefaultTokenProviders(); // Подключаем Identity
+
+services.AddHttpClient("WebStoreAPIIdentity", client => client.BaseAddress = new(configuration["WebAPI"]))
+   .AddTypedClient<IUserStore<User>, UsersClient>()
+   .AddTypedClient<IUserRoleStore<User>, UsersClient>()
+   .AddTypedClient<IUserPasswordStore<User>, UsersClient>()
+   .AddTypedClient<IUserEmailStore<User>, UsersClient>()
+   .AddTypedClient<IUserPhoneNumberStore<User>, UsersClient>()
+   .AddTypedClient<IUserTwoFactorStore<User>, UsersClient>()
+   .AddTypedClient<IUserClaimStore<User>, UsersClient>()
+   .AddTypedClient<IUserLoginStore<User>, UsersClient>()
+   .AddTypedClient<IRoleStore<Role>, RolesClient>();
 
 services.Configure<IdentityOptions>(opt =>
 {
