@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 using WebStore.DAL.Context;
 using WebStore.Domain.Entities.Identity;
 using WebStore.Infrastructure.Conventions;
@@ -14,6 +15,7 @@ using WebStore.WebAPI.Clients.Identity;
 using WebStore.WebAPI.Clients.Orders;
 using WebStore.WebAPI.Clients.Products;
 using WebStore.WebAPI.Clients.Values;
+using AutoMapper;
 
 var builder = WebApplication.CreateBuilder(args); // Создаем builder
 
@@ -47,6 +49,7 @@ services.AddHttpClient("WebStoreAPIIdentity", client => client.BaseAddress = new
    .AddTypedClient<IUserClaimStore<User>, UsersClient>()
    .AddTypedClient<IUserLoginStore<User>, UsersClient>()
    .AddTypedClient<IRoleStore<Role>, RolesClient>();
+
 
 services.Configure<IdentityOptions>(opt =>
 {
