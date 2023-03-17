@@ -1,75 +1,120 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Net.Http.Json;
 using WebStore.Domain.Entities.Identity;
 using WebStore.Interfaces.Services;
 using WebStore.Interfaces.Services.Identity;
 using WebStore.WebAPI.Clients.Base;
 
-namespace WebStore.WebAPI.Clients.Identity
+namespace WebStore.WebAPI.Clients.Identity;
+
+public class RolesClient : BaseClient, IRolesClient
 {
-	public class RolesClient : BaseClient, IRolesClient
+	public RolesClient(HttpClient Client) : base(Client, WebApiAddresses.Identity.Roles)
 	{
-		public RolesClient(HttpClient Client) : base(Client, WebApiAddresses.Identity.Roles)
-		{
-		}
-
-		public Task<IdentityResult> CreateAsync(Role role, CancellationToken cancellationToken)
-		{
-			throw new NotImplementedException();
-		}
-
-		public Task<IdentityResult> DeleteAsync(Role role, CancellationToken cancellationToken)
-		{
-			throw new NotImplementedException();
-		}
-
-		public void Dispose()
-		{
-			throw new NotImplementedException();
-		}
-
-		public Task<Role> FindByIdAsync(string roleId, CancellationToken cancellationToken)
-		{
-			throw new NotImplementedException();
-		}
-
-		public Task<Role> FindByNameAsync(string normalizedRoleName, CancellationToken cancellationToken)
-		{
-			throw new NotImplementedException();
-		}
-
-		public Task<string> GetNormalizedRoleNameAsync(Role role, CancellationToken cancellationToken)
-		{
-			throw new NotImplementedException();
-		}
-
-		public Task<string> GetRoleIdAsync(Role role, CancellationToken cancellationToken)
-		{
-			throw new NotImplementedException();
-		}
-
-		public Task<string> GetRoleNameAsync(Role role, CancellationToken cancellationToken)
-		{
-			throw new NotImplementedException();
-		}
-
-		public Task SetNormalizedRoleNameAsync(Role role, string normalizedName, CancellationToken cancellationToken)
-		{
-			throw new NotImplementedException();
-		}
-
-		public Task SetRoleNameAsync(Role role, string roleName, CancellationToken cancellationToken)
-		{
-			throw new NotImplementedException();
-		}
-
-		public Task<IdentityResult> UpdateAsync(Role role, CancellationToken cancellationToken)
-		{
-			throw new NotImplementedException();
-		}
 	}
+
+	#region IRoleStore<Role>
+
+	public async Task<IdentityResult> CreateAsync(Role role, CancellationToken cancel)
+	{
+		var response = await PostAsync(Address, role, cancel).ConfigureAwait(false);
+		var result = await response
+		   .EnsureSuccessStatusCode()
+		   .Content
+		   .ReadFromJsonAsync<bool>(cancellationToken: cancel).ConfigureAwait(false);
+
+		return result
+			? IdentityResult.Success
+			: IdentityResult.Failed();
+	}
+
+	public async Task<IdentityResult> UpdateAsync(Role role, CancellationToken cancel)
+	{
+		var response = await PutAsync(Address, role, cancel).ConfigureAwait(false);
+		var result = await response
+		   .EnsureSuccessStatusCode()
+		   .Content
+		   .ReadFromJsonAsync<bool>(cancellationToken: cancel).ConfigureAwait(false);
+
+		return result
+			? IdentityResult.Success
+			: IdentityResult.Failed();
+	}
+
+	public async Task<IdentityResult> DeleteAsync(Role role, CancellationToken cancel)
+	{
+		var response = await PostAsync($"{Address}/Delete", role, cancel).ConfigureAwait(false);
+		var result = await response
+		   .EnsureSuccessStatusCode()
+		   .Content
+		   .ReadFromJsonAsync<bool>(cancellationToken: cancel).ConfigureAwait(false);
+
+		return result
+			? IdentityResult.Success
+			: IdentityResult.Failed();
+	}
+
+	public async Task<string> GetRoleIdAsync(Role role, CancellationToken cancel)
+	{
+		var response = await PostAsync($"{Address}/GetRoleId", role, cancel).ConfigureAwait(false);
+		return await response
+		   .EnsureSuccessStatusCode()
+		   .Content
+		   .ReadAsStringAsync(cancel)
+		   .ConfigureAwait(false);
+	}
+
+	public async Task<string> GetRoleNameAsync(Role role, CancellationToken cancel)
+	{
+		var response = await PostAsync($"{Address}/GetRoleName", role, cancel).ConfigureAwait(false);
+		return await response
+		   .EnsureSuccessStatusCode()
+		   .Content
+		   .ReadAsStringAsync(cancel)
+		   .ConfigureAwait(false);
+	}
+
+	public async Task SetRoleNameAsync(Role role, string name, CancellationToken cancel)
+	{
+		var response = await PostAsync($"{Address}/SetRoleName/{name}", role, cancel).ConfigureAwait(false);
+		role.Name = await response
+		   .EnsureSuccessStatusCode()
+		   .Content
+		   .ReadAsStringAsync(cancel)
+		   .ConfigureAwait(false);
+	}
+
+	public async Task<string> GetNormalizedRoleNameAsync(Role role, CancellationToken cancel)
+	{
+		var response = await PostAsync($"{Address}/GetNormalizedRoleName", role, cancel).ConfigureAwait(false);
+		return await response
+		   .EnsureSuccessStatusCode()
+		   .Content
+		   .ReadAsStringAsync(cancel)
+		   .ConfigureAwait(false);
+	}
+
+	public async Task SetNormalizedRoleNameAsync(Role role, string name, CancellationToken cancel)
+	{
+		var response = await PostAsync($"{Address}/SetNormalizedRoleName/{name}", role, cancel).ConfigureAwait(false);
+		role.NormalizedName = await response
+		   .EnsureSuccessStatusCode()
+		   .Content
+		   .ReadAsStringAsync(cancel)
+		   .ConfigureAwait(false);
+	}
+
+	public async Task<Role> FindByIdAsync(string id, CancellationToken cancel)
+	{
+		return (await GetAsync<Role>($"{Address}/FindById/{id}", cancel)
+		   .ConfigureAwait(false))!;
+	}
+
+	public async Task<Role> FindByNameAsync(string name, CancellationToken cancel)
+	{
+		return (await GetAsync<Role>($"{Address}/FindByName/{name}", cancel)
+		   .ConfigureAwait(false))!;
+	}
+
+	#endregion
 }
