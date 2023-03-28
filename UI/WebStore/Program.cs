@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 using WebStore.DAL.Context;
 using WebStore.Domain.Entities.Identity;
 using WebStore.Infrastructure.Conventions;
@@ -10,9 +11,11 @@ using WebStore.Services.InCookies;
 using WebStore.Services.InSQL;
 using WebStore.Services.Interfaces;
 using WebStore.WebAPI.Clients.Employees;
+using WebStore.WebAPI.Clients.Identity;
 using WebStore.WebAPI.Clients.Orders;
 using WebStore.WebAPI.Clients.Products;
 using WebStore.WebAPI.Clients.Values;
+using AutoMapper;
 
 var builder = WebApplication.CreateBuilder(args); // Создаем builder
 
@@ -30,11 +33,25 @@ services.AddHttpClient<IEmployeesData, EmployeesClient>(client => client.BaseAdd
 services.AddHttpClient<IProductData, ProductsClient>(client => client.BaseAddress = new(configuration["WebAPI"]));
 services.AddHttpClient<IOrderService, OrdersClient>(client => client.BaseAddress = new(configuration["WebAPI"]));
 
+services.AddAutoMapper(Assembly.GetEntryAssembly());
+
 
 
 services.AddIdentity<User, Role>()
-   .AddEntityFrameworkStores<WebStoreDB>()
+   //.AddEntityFrameworkStores<WebStoreDB>()
    .AddDefaultTokenProviders(); // Подключаем Identity
+
+services.AddHttpClient("WebStoreAPIIdentity", client => client.BaseAddress = new(configuration["WebAPI"]))
+   .AddTypedClient<IUserStore<User>, UsersClient>()
+   .AddTypedClient<IUserRoleStore<User>, UsersClient>()
+   .AddTypedClient<IUserPasswordStore<User>, UsersClient>()
+   .AddTypedClient<IUserEmailStore<User>, UsersClient>()
+   .AddTypedClient<IUserPhoneNumberStore<User>, UsersClient>()
+   .AddTypedClient<IUserTwoFactorStore<User>, UsersClient>()
+   .AddTypedClient<IUserClaimStore<User>, UsersClient>()
+   .AddTypedClient<IUserLoginStore<User>, UsersClient>()
+   .AddTypedClient<IRoleStore<Role>, RolesClient>();
+
 
 services.Configure<IdentityOptions>(opt =>
 {

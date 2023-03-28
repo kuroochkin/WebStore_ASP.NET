@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Reflection;
+using WebStore.DAL.Migrations;
 using WebStore.Domain.Entities;
 using WebStore.Domain.Entities.Identity;
 using WebStore.Services.Interfaces;
@@ -12,20 +14,24 @@ namespace WebStore.Controllers
     [Authorize(Roles = Role.Administrators)]
     public class EmployeesController : Controller
     {
-        public IEmployeesData employees { get; set; } // Свойство для хранения сотрудников в контроллере через сервис
-        public EmployeesController(IEmployeesData EmployeesData)
+        public readonly IEmployeesData _EmployessData; // Свойство для хранения сотрудников в контроллере через сервис
+        
+        public readonly IMapper _Mapper;
+        
+        public EmployeesController(IEmployeesData EmployeesData, IMapper Mapper)
         {
-            this.employees = EmployeesData; // Получаем данные по сотрудникам из класса TestData
+            _EmployessData = EmployeesData; // Получаем данные по сотрудникам из класса TestData
+            _Mapper = Mapper;
         }
 
         public IActionResult Index()
         {
-            return View(employees.GetAll());
+            return View(_EmployessData.GetAll());
         }
 
         public IActionResult Details(int Id)
         {
-            var employee = employees.GetById(Id);
+            var employee = _EmployessData.GetById(Id);
 
             if (employee is null)
                 return NotFound();
@@ -41,18 +47,20 @@ namespace WebStore.Controllers
             if (id is null)
                 return View(new EmployeeViewModel());
 
-            var employee = employees.GetById((int)id);
+            var employee = _EmployessData.GetById((int)id);
             if (employee is null)
                 return NotFound();
 
-            var model = new EmployeeViewModel
-            {
-                Id = employee.Id,
-                LastName = employee.LastName,
-                Name = employee.FirstName,
-                Patronymic = employee.Patronymic,
-                Age = employee.Age,
-            };
+            //var model = new EmployeeViewModel
+            //{
+            //    Id = employee.Id,
+            //    LastName = employee.LastName,
+            //    Name = employee.FirstName,
+            //    Patronymic = employee.Patronymic,
+            //    Age = employee.Age,
+            //};
+
+            var model = _Mapper.Map<EmployeeViewModel>(employee);
             
             return View(model); // Отправка модели на обработку
         }
@@ -64,18 +72,20 @@ namespace WebStore.Controllers
             if(!ModelState.IsValid)
                 return View(model);
 
-            var employee = new Employee
-            {
-                Id = model.Id,
-                LastName = model.LastName,
-                FirstName = model.Name,
-                Patronymic = model.Patronymic,
-                Age = model.Age,
-            };
+            //var employee = new Employee
+            //{
+            //    Id = model.Id,
+            //    LastName = model.LastName,
+            //    FirstName = model.Name,
+            //    Patronymic = model.Patronymic,
+            //    Age = model.Age,
+            //};
 
-            if(model.Id == 0)
-                employees.Add(employee);
-            else if (!employees.Edit(employee))
+			var employee = _Mapper.Map<Employee>(model);
+
+			if (model.Id == 0)
+                _EmployessData.Add(employee);
+            else if (!_EmployessData.Edit(employee))
                 return NotFound();
                 
             // Обработка модели
@@ -88,31 +98,33 @@ namespace WebStore.Controllers
             if(id < 0)
                 return BadRequest();
             
-            var employee = employees.GetById(id);
+            var employee = _EmployessData.GetById(id);
             if (employee is null)
                 return NotFound();
 
-            var model = new EmployeeViewModel
-            {
-                Id = employee.Id,
-                LastName = employee.LastName,
-                Name = employee.FirstName,
-                Patronymic = employee.Patronymic,
-                Age = employee.Age,
-            };
+			//var model = new EmployeeViewModel
+			//{
+			//    Id = employee.Id,
+			//    LastName = employee.LastName,
+			//    Name = employee.FirstName,
+			//    Patronymic = employee.Patronymic,
+			//    Age = employee.Age,
+			//};
 
-            return View(model); // Отправка модели на обработку
+			var model = _Mapper.Map<EmployeeViewModel>(employee);
+
+			return View(model); // Отправка модели на обработку
         }
 
         [HttpPost]
         [Authorize(Roles = Role.Administrators)]
         public IActionResult DeleteConfirmed(int id)
         {
-            var employee = employees.GetById(id);
+            var employee = _EmployessData.GetById(id);
             if (employee is null)
                 return NotFound();
 
-            employees.Delete(id);
+            _EmployessData.Delete(id);
 
             return RedirectToAction("Index");
         }

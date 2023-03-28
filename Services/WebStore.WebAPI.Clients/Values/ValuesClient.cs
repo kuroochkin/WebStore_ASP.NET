@@ -7,7 +7,7 @@ namespace WebStore.WebAPI.Clients.Values
 {
     public class ValuesClient : BaseClient, IValuesService
     {
-        public ValuesClient(HttpClient Client) : base(Client, "api/values")
+        public ValuesClient(HttpClient Client) : base(Client, WebApiAddresses.Values)
         {
 
         }
