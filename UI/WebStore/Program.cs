@@ -33,6 +33,8 @@ services.AddHttpClient<IEmployeesData, EmployeesClient>(client => client.BaseAdd
 services.AddHttpClient<IProductData, ProductsClient>(client => client.BaseAddress = new(configuration["WebAPI"]));
 services.AddHttpClient<IOrderService, OrdersClient>(client => client.BaseAddress = new(configuration["WebAPI"]));
 
+services.AddAutoMapper(Assembly.GetEntryAssembly());
+
 
 
 services.AddIdentity<User, Role>()
